@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #1E1B4B;
+  --font-outfit: 'Outfit', sans-serif;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-outfit);
+}
+
+/* Original React index.css classes */
+* {
+  box-sizing: border-box;
+}
+
+.swal2-loader {
+  background: url('https://medingen.in/loader.gif') center center no-repeat !important;
+  background-size: 84px 84px !important;
+  width: 84px !important;
+  height: 84px !important;
+  border: none !important;
+  box-sizing: content-box !important;
+  animation: none !important;
+  margin: auto;
+}
+
+#in-app-notification-root {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.inapp-noti-card {
+  pointer-events: auto;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(12, 20, 31, 0.12);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transform: translateY(-12px) scale(0.98);
+  opacity: 0;
+  transition: transform 260ms cubic-bezier(.2,.9,.3,1), opacity 260ms ease;
+  cursor: pointer;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+#in-app-notification-root .inapp-noti-card:not(.inapp-noti-exit) {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.inapp-noti-exit {
+  transform: translateY(-8px) scale(0.985);
+  opacity: 0;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.inapp-noti-left {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+}
+
+.inapp-noti-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.inapp-noti-body {
+  padding: 10px 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.inapp-noti-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.inapp-noti-message {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.2;
+  max-height: 3.6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inapp-noti-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.inapp-noti-close:hover {
+  color: #64748b;
+}
+
+@media (max-width: 420px) {
+  #in-app-notification-root { left: 8px; right: 8px; top: 8px; }
+  .inapp-noti-card { width: auto; }
+}
+
+/* Original React App.css classes */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.App {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.footer {
+  min-height: 50px;
+}
+
+/* Fade transitions classes */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+}
+
+/* Dynamic floating cart style */
+.floating-cart-left {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background-color: #5D399B;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.floating-cart-left:hover {
+  background-color: #4c2d82;
+  transform: translateY(-2px);
+}
+
+@media only screen and (max-width: 800px) {
+  .footer,
+  .footer-bottom {
+    display: none !important;
+  }
+  .LandingPage .footer,
+  .dashboard .footer {
+    display: block !important;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .App {
+    display: block;
+    width: 100%;
+  }
+}
