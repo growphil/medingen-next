@@ -17,10 +17,8 @@ const getNumericPrice = (priceStr) => {
 };
 
 const OrderDetails = () => {
-  const { params } = useLegacyRouting();
-  const id = params?.id;
-  const { navigate } = useLegacyRouting();
-  const { location } = useLegacyRouting();
+  const { params, navigate, location } = useLegacyRouting();
+  const id = params?.id || params?.orderId;
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -255,7 +253,7 @@ const OrderDetails = () => {
                 <h3>Need Help with this Order?</h3>
                 <p>Facing issues with delivery, damaged items, or have questions about dosage? Our pharmacists are online 24/7 to assist you.</p>
               </div>
-              <button className="chat-pharmacist-btn">
+              <button className="chat-pharmacist-btn" onClick={() => window.open("https://wa.me/917090123709", "_blank")}>
                 <FiMessageCircle size={18} />
                 <span>Chat with Pharmacist</span>
               </button>
@@ -330,7 +328,7 @@ const OrderDetails = () => {
                 <span>Net Amount</span>
                 <span className="net-val">₹{order.orderSummary.totalAmount}</span>
               </div>
-              <p className="tax-inclusive">Inclusive of all taxes \u0026 healthcare cess</p>
+              <p className="tax-inclusive">Inclusive of all taxes & healthcare cess</p>
             </section>
           </div>
         </div>

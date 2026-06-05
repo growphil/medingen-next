@@ -1,11 +1,7 @@
 .get-started-section {
-    padding: 0 5%;
-    padding-top: 20px;
-    margin-top: 60px;
+    padding: 40px 5%;
     max-width: 1400px;
-    margin-bottom: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 60px auto 30px auto;
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -14,8 +10,7 @@
 .get-started-banner {
     background: linear-gradient(90deg, #9D80FF 0%, #CDB2FF 100%);
     border-radius: 32px;
-    border-bottom-right-radius: 0;
-    padding: 46px 80px;
+    padding: 50px 80px;
     color: #08080a;
     position: relative;
     overflow: visible;
@@ -23,7 +18,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 260px;
+    min-height: 280px;
+    box-shadow: 0 20px 40px rgba(157, 128, 255, 0.15);
 }
 
 .get-started-content {
@@ -34,26 +30,27 @@
 
 .get-started-title {
     font-family: "Outfit", Helvetica, sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-    margin-bottom: 12px;
+    font-size: 38px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
     color: #08080a;
-    line-height: 1.06;
+    line-height: 1.15;
 }
 
 .get-started-subtext {
     font-family: "Outfit", Helvetica, sans-serif;
-    font-size: 15px;
-    margin-bottom: 8px;
-    color: rgba(0, 0, 0, 0.85);
-    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: rgba(8, 8, 10, 0.85);
+    font-weight: 500;
     max-width: 520px;
+    line-height: 1.4;
 }
 
 .get-started-highlight {
     font-family: "Outfit", Helvetica, sans-serif;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     display: block;
     font-size: 16px;
     color: #000;
@@ -62,13 +59,19 @@
 .get-started-buttons {
     display: flex;
     gap: 16px;
-    margin-top: 22px;
+    margin-top: 24px;
 }
 
 .get-started-btn {
-    height: 46px;
+    height: 48px;
     cursor: pointer;
     border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.get-started-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .get-started-phones {
@@ -76,7 +79,7 @@
     right: 5%;
     top: 50%;
     transform: translateY(-50%);
-    width: 1200px;
+    width: auto;
     height: auto;
     z-index: 4;
     display: flex;
@@ -85,9 +88,9 @@
 }
 
 .get-started-phones .iphone-svg {
-    width: 420px;
+    width: 320px;
     height: auto;
-    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.18));
+    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.25));
 }
 
 .iphone-svg {
@@ -113,64 +116,77 @@
         font-size: 32px;
     }
 
-    .get-started-phones {
-        right: 4%;
-    }
-
     .get-started-phones .iphone-svg {
-        width: 360px;
+        width: 280px;
     }
 }
 
 @media (max-width: 1024px) {
     .get-started-banner {
-        padding: 40px 40px;
+        padding: 40px;
     }
 
     .get-started-content {
-        max-width: 55%;
-    }
-
-    .get-started-phones {
-        width: 100%;
-        right: 20px;
-    }
-
-    .get-started-phones .iphone-svg {
-        width: 320px;
-    }
-}
-
-@media (max-width: 768px) {
-    .get-started-section {
-        padding: 20px 5%;
-        /* Maintain vertical padding and consistent side spacing */
-        box-sizing: border-box;
-    }
-
-    .get-started-banner {
-        padding: 30px 20px;
-        text-align: center;
-        border-radius: 24px;
-        flex-direction: column;
-    }
-
-    .get-started-content {
-        margin: 0 auto;
-        max-width: 100%;
+        max-width: 60%;
     }
 
     .get-started-title {
         font-size: 28px;
     }
 
+    .get-started-phones .iphone-svg {
+        width: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .get-started-section {
+        padding: 20px 16px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .get-started-banner {
+        padding: 36px 24px;
+        text-align: center;
+        border-radius: 24px;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .get-started-content {
+        margin: 0 auto;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .get-started-title {
+        font-size: 26px;
+        text-align: center;
+    }
+
     .get-started-subtext {
         font-size: 14px;
+        text-align: center;
+    }
+
+    .get-started-highlight {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 16px;
     }
 
     .get-started-buttons {
         justify-content: center;
         flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .get-started-btn {
+        height: 40px;
     }
 
     .desktop-only {

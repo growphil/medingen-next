@@ -55,11 +55,6 @@ const Testimonials = ({ title = "Hear from Medingen Customers" }) => {
     if (autoRef.current) clearInterval(autoRef.current);
   };
 
-  const currentReview = googleReviews[currentSlide];
-
-  const reviewerName = currentReview?.reviewer?.displayName || "Google User";
-  const reviewerPhoto = currentReview?.reviewer?.profilePhotoUrl;
-
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
       <FaStar key={i} className={i < Math.floor(rating) ? "star-icon-filled" : "star-icon-empty"} />
@@ -67,13 +62,18 @@ const Testimonials = ({ title = "Hear from Medingen Customers" }) => {
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const getInitials = (name) => {
-    return name?.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2);
+    return name?.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2) || "GU";
   };
+
+  const currentReview = googleReviews[currentSlide];
+  const reviewerName = currentReview?.reviewer?.displayName || "Google User";
+  const reviewerPhoto = currentReview?.reviewer?.profilePhotoUrl;
 
   return (
     <section className="testimonials-section-new">
@@ -107,7 +107,7 @@ const Testimonials = ({ title = "Hear from Medingen Customers" }) => {
         </div>
 
         {/* Right Section: Testimonial Stories */}
-        <div className="testimonials-stories">
+        <div className="testimonials-stories" style={{ minWidth: 0 }}>
           <div className="stories-header">
             <h2 className="stories-title">Patient Stories</h2>
             <div className="slider-controls">
@@ -120,52 +120,52 @@ const Testimonials = ({ title = "Hear from Medingen Customers" }) => {
             </div>
           </div>
 
-          <div className="story-card-wrapper">
-             {googleReviews.length > 0 ? (
-               <div className="story-card">
-                 <div className="reviewer-info">
-                   <div className="reviewer-avatar">
-                     {reviewerPhoto ? (
-                       <img src={reviewerPhoto} alt={reviewerName} />
-                     ) : (
-                       <div className="avatar-initials">{getInitials(reviewerName)}</div>
-                     )}
-                     <div className="google-badge-small">
-                        <GoogleIcon />
-                     </div>
-                   </div>
-                   <div className="reviewer-details">
-                     <h3 className="reviewer-name">{reviewerName}</h3>
-                     <div className="review-meta">
-                       <div className="review-stars">
-                         {renderStars(currentReview.starRating)}
-                       </div>
-                       <span className="review-date">{formatDate(currentReview.createTime)}</span>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <div className="review-comment">
-                   <p>"{currentReview.comment}"</p>
-                 </div>
+          <div className="story-card-wrapper" style={{ minHeight: "380px" }}>
+            {googleReviews.length > 0 ? (
+              <div className="story-card" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <div className="reviewer-info">
+                  <div className="reviewer-avatar">
+                    {reviewerPhoto ? (
+                      <img src={reviewerPhoto} alt={reviewerName} />
+                    ) : (
+                      <div className="avatar-initials">{getInitials(reviewerName)}</div>
+                    )}
+                    <div className="google-badge-small">
+                      <GoogleIcon />
+                    </div>
+                  </div>
+                  <div className="reviewer-details">
+                    <h3 className="reviewer-name">{reviewerName}</h3>
+                    <div className="review-meta">
+                      <div className="review-stars">
+                        {renderStars(currentReview.starRating)}
+                      </div>
+                      <span className="review-date">{formatDate(currentReview.createTime)}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="review-comment">
+                  <p>"{currentReview.comment || "Great service and very helpful support team!"}"</p>
+                </div>
 
-                 <div className="story-card-footer">
-                   <div className="helpful-tag">
-                     <FaThumbsUp />
-                     Helpful (42)
-                   </div>
-                   <button className="share-btn">
-                     <FaShareAlt />
-                   </button>
-                 </div>
-               </div>
-             ) : (
-               <div className="story-card-skeleton">
-                 <div className="skeleton-line" style={{ width: '60%' }}></div>
-                 <div className="skeleton-line" style={{ width: '100%' }}></div>
-                 <div className="skeleton-line" style={{ width: '80%' }}></div>
-               </div>
-             )}
+                <div className="story-card-footer" style={{ marginTop: "auto" }}>
+                  <div className="helpful-tag">
+                    <FaThumbsUp />
+                    Helpful ({currentReview.helpfulCount || 10})
+                  </div>
+                  <button className="share-btn" onClick={() => navigator.clipboard.writeText("https://medingen.in")}>
+                    <FaShareAlt />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="story-card-skeleton">
+                <div className="skeleton-line" style={{ width: '60%' }}></div>
+                <div className="skeleton-line" style={{ width: '100%' }}></div>
+                <div className="skeleton-line" style={{ width: '80%' }}></div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -174,4 +174,3 @@ const Testimonials = ({ title = "Hear from Medingen Customers" }) => {
 };
 
 export default Testimonials;
-

@@ -215,9 +215,6 @@ const HeadActions = ({ variant }) => {
                 <Link href="/savedaddress">My Address</Link>
               </div>
               <div className="profile-item">
-                <Link href="/upload-prescription">Prescriptions</Link>
-              </div>
-              <div className="profile-item">
                 <a
                   href="https://wa.me/917090123709"
                   target="_blank"

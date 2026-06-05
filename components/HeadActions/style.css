@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  width: auto !important;
 }
 
 .profile-down-arrow {
@@ -125,6 +126,7 @@
   object-fit: cover;
   border: 1.5px solid #eaeaea;
   background: #fff;
+  flex-shrink: 0;
 }
 
 .header-profile-arrow {

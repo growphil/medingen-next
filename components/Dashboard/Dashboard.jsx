@@ -9,6 +9,8 @@ import {
   getMainCategories,
   searchProducts,
   addToCart,
+  getCartData,
+  updateChoosePrescription,
 } from "../../api/Api";
 import Navigation from "./Navigation";
 import Link from "next/link";
@@ -20,6 +22,7 @@ import { DashboardHeader } from "./DashboardHeader";
 import { CategoryFilter, categoryData } from "../Category/CategoryFilter";
 import ProductSection from "./ProductSection";
 import { InlineSearch } from "../../components/InlineSearch/InlineSearch";
+import { PrescriptionUploadModal } from "../PrescriptionUploadModal/PrescriptionUploadModal";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -276,7 +279,36 @@ export const Dashboard = () => {
   ]);
 
   const [categories, setCategories] = useState([]);
-  const { itemCount, dispatch, refreshCartCount } = useCart();
+  const { itemCount, dispatch, refreshCartCount, cartId } = useCart();
+  const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
+
+  const handlePrescriptionSelected = async (prescriptionId) => {
+    try {
+      let currentCartId = cartId;
+      if (!currentCartId) {
+        const cartRes = await getCartData();
+        if (cartRes && cartRes.data && cartRes.data.cart_id) {
+          currentCartId = cartRes.data.cart_id;
+        }
+      }
+      if (currentCartId) {
+        await updateChoosePrescription(prescriptionId, currentCartId);
+        window.dispatchEvent(new Event("cartUpdated"));
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Prescription Selected",
+        text: "Redirecting to your cart...",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/cart");
+      });
+    } catch (error) {
+      console.error("Error setting prescription:", error);
+      Swal.fire({ icon: "error", title: "Error", text: "Failed to link prescription to cart." });
+    }
+  };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sharedSearchText, setSharedSearchText] = useState("");
   const [sharedShowDropdown, setSharedShowDropdown] = useState(false);
@@ -665,13 +697,24 @@ export const Dashboard = () => {
                   </div>
                   <div className="btn-icon"><img src="/Call.svg" alt="Call" /></div>
                 </div>
-                <Link href="/upload-prescription" className="action-btn-box presc-box">
+                <div
+                  className="action-btn-box presc-box"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    const userData = getUser();
+                    if (!userData.isLoggedIn) {
+                      navigate("/login");
+                    } else {
+                      setShowPrescriptionModal(true);
+                    }
+                  }}
+                >
                   <div className="btn-content">
                     <span className="btn-label">Order with prescription</span>
                     <span className="btn-value">Upload Now</span>
                   </div>
                   <div className="btn-icon"><img src="/Upload.svg" alt="Upload" /></div>
-                </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -893,6 +936,11 @@ export const Dashboard = () => {
       </div>
 
       <Navigation />
+      <PrescriptionUploadModal
+        open={showPrescriptionModal}
+        onClose={() => setShowPrescriptionModal(false)}
+        onPrescriptionSelected={handlePrescriptionSelected}
+      />
     </>
   );
 };

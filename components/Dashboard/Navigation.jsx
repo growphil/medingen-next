@@ -26,10 +26,10 @@ const NAV_ITEMS = [
     link: '/',
   },
   {
-    paths: ['/notification'],
+    paths: ['/notifications'],
     text: 'Notification',
     icon: '/notify.svg',
-    link: '/notification',
+    link: '/notifications',
     showBadge: true,
   },
   {

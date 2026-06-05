@@ -3,13 +3,8 @@ import "./style.css";
 import Navigation from "../Dashboard/Navigation";
 import Link from "next/link";
 import { useLegacyRouting } from "@/lib/router-compat";
-import Swal from "sweetalert2";
 import { getOffers } from "../../api/Api";
-import HeadActions from "../../components/HeadActions/HeadActions";
 import Header from "../Dashboard/Header";
-import { DashboardHeader } from "../Dashboard/DashboardHeader";
-
-
 
 export const Offers = () => {
   const { navigate } = useLegacyRouting();
@@ -17,29 +12,33 @@ export const Offers = () => {
   const [offers, setOffers] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchOffers(page);
   }, [page]);
 
-  const fetchOffers = async (page) => {
-    Swal.fire({
-      title: "Loading...",
-      text: "Fetching offers, please wait.",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
+  const fetchOffers = async (pageNumber) => {
+    setLoading(true);
+    setError(null);
     try {
-      const data = await getOffers(page);
-      setOffers((prevOffers) => [...prevOffers, ...data.offers]);
-      setHasNext(data.has_next);
-      Swal.close();
-    } catch (error) {
-      Swal.close();
-      Swal.fire("Error", "Failed to fetch offers. Please try again.", "error");
+      const data = await getOffers(pageNumber);
+      if (data && Array.isArray(data.offers)) {
+        if (pageNumber === 1) {
+          setOffers(data.offers);
+        } else {
+          setOffers((prevOffers) => [...prevOffers, ...data.offers]);
+        }
+        setHasNext(!!data.has_next);
+      } else {
+        setHasNext(false);
+      }
+    } catch (err) {
+      console.error("Failed to fetch offers:", err);
+      setError("Failed to load offers. Please check your internet connection and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,12 +47,11 @@ export const Offers = () => {
   };
 
   const handleViewMore = () => {
-    if (hasNext) {
+    if (hasNext && !loading) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
-  // 🔧 Utility function to format description into HTML
   const formatOfferDescription = (desc) => {
     if (!desc) return "";
 
@@ -63,102 +61,98 @@ export const Offers = () => {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
 
-    const isTnC = lines[0].toLowerCase().includes("terms & conditions");
+    const filteredLines = lines.filter(
+      (line) => !line.toLowerCase().includes("terms & conditions")
+    );
 
-    if (isTnC) {
-      const numberedList = lines.slice(1)
-        .map((line) => `<li>${line.replace(/^\d+\.\s*/, '')}</li>`)
-        .join("");
+    const numberedList = filteredLines
+      .map((line) => `<li>${line.replace(/^\d+\.\s*/, "")}</li>`)
+      .join("");
 
-      return `
-        <p><strong>${lines[0]}</strong></p>
-        <ol class="offer-terms-list">${numberedList}</ol>
-      `;
-    }
-
-    return `<p>${lines.join("<br/>")}</p>`;
+    return `<ol class="offer-terms-list">${numberedList}</ol>`;
   };
 
   return (
     <>
-      
-
-      <div className="offers">
+      <div className="offers-page" style={{ fontFamily: "Outfit, sans-serif" }}>
         <Header id="offers-page-header" title={"Offers"} />
 
-        <div className="overlap-wrapper">
-          <div className="overlap-2">
-            <div className="overlap-group-2">
-              <div className="text-wrapper-8">Offers</div>
-            </div>
-            <Link href="/rewards" className="text-wrapper-9">
+        <div className="offers-content-wrapper">
+          <div className="offers-tabs-container">
+            <button className="tab-button active">Offers</button>
+            <Link href="/rewards" className="tab-button">
               Rewards
             </Link>
           </div>
-        </div>
 
-        <div className="offers-container">
-          {offers.map((offer) => (
-            <div key={offer.id} className="offers-item">
-              <div className="frame">
-                <div className="frame-wrapper">
-                  <div className="div">
-                    <img
-                      className="rectangle"
-                      alt="Offer"
-                      src={
-                        "https://d1dh0rr5xj2p49.cloudfront.net/banner/" +
-                        offer.image
-                      }
-                    />
-                    <div className="div">
-                      <div className="frame-2">
-                        <p className="p-margin text-wrapper">{offer.title}</p>
-                        <div
-                          className="p-margin p"
-                          dangerouslySetInnerHTML={{
-                            __html: formatOfferDescription(offer.description),
-                          }}
-                        ></div>
-                      </div>
-                      <div className="div-wrapper">
-                        <div className="frame-3">
-                          <div
-                            onClick={() => handleViewOffer(offer)}
-                            className="text-wrapper-2"
-                          >
-                            {offer.linkText}
-                          </div>
-                          <img
-                            className="vector"
-                            alt="Vector"
-                            src={offer.linkIcon || "vector-3.svg"}
-                            fetchPriority="high"
-                          />
-                        </div>
-                      </div>
-                    </div>
+          <div className="offers-grid-container">
+            {error && (
+              <div className="error-state">
+                <p>{error}</p>
+                <button onClick={() => fetchOffers(page)}>Retry</button>
+              </div>
+            )}
+
+            {!error && offers.length === 0 && !loading && (
+              <div className="empty-state">
+                <p className="title">No active offers available</p>
+                <p className="subtitle">Check back later for new promotional campaigns.</p>
+              </div>
+            )}
+
+            {offers.map((offer) => (
+              <div key={offer.id} className="offer-card">
+                <img
+                  className="offer-image"
+                  alt="Offer"
+                  src={
+                    "https://d1dh0rr5xj2p49.cloudfront.net/banner/" +
+                    offer.image
+                  }
+                  onError={(e) => { e.target.src = "/medicine-details.png"; }}
+                />
+                <div className="offer-card-content">
+                  <h3 className="offer-title">{offer.title}</h3>
+                  <div className="offer-terms-section">
+                    <span className="terms-label">Terms & Conditions:</span>
+                    <div
+                      className="terms-content"
+                      dangerouslySetInnerHTML={{
+                        __html: formatOfferDescription(offer.description),
+                      }}
+                    ></div>
                   </div>
+                  <button className="view-offer-btn" onClick={() => handleViewOffer(offer)}>
+                    {offer.linkText || "View Offer Now"}
+                    <span className="arrow-icon"> &rarr;</span>
+                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          <div className="offers-item">
-            {hasNext ? (
-              <button onClick={handleViewMore} className="view-more-button">
-                View More
-              </button>
-            ) : (
-              <p className="p-margin no-more-offers-text">
-                No more offers available at the moment.
-              </p>
+            {loading && (
+              <div className="skeleton-container">
+                {[...Array(2)].map((_, i) => (
+                  <div key={i} className="skeleton-card"></div>
+                ))}
+              </div>
             )}
           </div>
-        </div>
 
-        <div className="landing-page">
-          </div>
+          {!loading && !error && offers.length > 0 && (
+            <div className="pagination-container">
+              {hasNext ? (
+                <button onClick={handleViewMore} className="view-more-button">
+                  View More
+                </button>
+              ) : (
+                <p className="no-more-offers-text">
+                  No more offers available at the moment.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <Navigation />

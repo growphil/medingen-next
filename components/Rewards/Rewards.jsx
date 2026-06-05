@@ -13,7 +13,6 @@ import Link from "next/link";
 import { useLegacyRouting } from "@/lib/router-compat";
 import Header from "../Dashboard/Header";
 
-
 export const Rewards = () => {
   const { navigate } = useLegacyRouting();
   const [migCoins, setMigCoins] = useState({
@@ -115,147 +114,114 @@ export const Rewards = () => {
 
   return (
     <>
-
-      <div className="rewards">
+      <div className="rewards-page" style={{ fontFamily: "Outfit, sans-serif" }}>
         <div className="reward-content">
           <Header title="Rewards" />
 
-          <div className="overlap-wrapper">
-            <div className="overlap-2">
-              <div className="overlap-group-2">
-                <div className="text-wrapper-8">Rewards</div>
-              </div>
-              <Link href="/offers" className="text-wrapper-9">
+          <div className="rewards-container">
+            <div className="offers-tabs-container">
+              <Link href="/offers" className="tab-button">
                 Offers
               </Link>
+              <button className="tab-button active">Rewards</button>
             </div>
-          </div>
-          <div className="container">
 
-            <div className="info-container">
-              <div className="icon-wrapper">
-                <div className="icon-overlay">
-                  <div className="icon-circle" />
-                  <div className="icon-text">i</div>
-                </div>
-              </div>
+            <div className="info-alert">
+              <span className="info-icon">ℹ</span>
               <p className="info-text">
                 Find out how much you can save through MIG Cashback Coins
               </p>
             </div>
-            <div className="text-wrapper-16">My MIG Cashback Coins</div>
 
-            <div className="frame-11">
-              <div className="frame-12">
-                <div className="image-wrapper">
-                  <img className="image-2" alt="Available" src="/image-20.png" />
+            <h3 className="rewards-section-title">My MIG Cashback Coins</h3>
+
+            <div className="rewards-stats-card">
+              <div className="stat-column">
+                <div className="stat-icon-wrapper available">
+                  <img className="stat-icon" alt="Available" src="/image-20.png" />
                 </div>
-                <p className="div-2">
-                  <span className="span">
-                    Available
-                    <br />
-                  </span>
-                  <span className="text-wrapper-13">
-                    {migCoins.available} Coins
-                  </span>
-                </p>
+                <div className="stat-label">Available</div>
+                <div className="stat-value">{migCoins.available} Coins</div>
               </div>
-              <div className="frame-12">
-                <div className="group-10">
-                  <img className="image-2" alt="Overall" src="/image-20.png" />
+              <div className="stat-column">
+                <div className="stat-icon-wrapper overall">
+                  <img className="stat-icon" alt="Overall" src="/image-20.png" />
                 </div>
-                <p className="div-2">
-                  <span className="span">
-                    Overall
-                    <br />
-                  </span>
-                  <span className="text-wrapper-13">
-                    {migCoins.overall} Coins
-                  </span>
-                </p>
+                <div className="stat-label">Overall</div>
+                <div className="stat-value">{migCoins.overall} Coins</div>
               </div>
-              <div className="frame-12">
-                <div className="group-11">
-                  <img className="image-2" alt="Expiring" src="/image-20.png" />
+              <div className="stat-column">
+                <div className="stat-icon-wrapper expiring">
+                  <img className="stat-icon" alt="Expiring" src="/image-20.png" />
                 </div>
-                <p className="expiring">
-                  <span className="span">
-                    Expiring
-                    <br />
-                  </span>
-                  <span className="text-wrapper-13">
-                    {migCoins.expiring} Coins
-                  </span>
-                </p>
+                <div className="stat-label">Expiring</div>
+                <div className="stat-value expiring">{migCoins.expiring} Coins</div>
               </div>
             </div>
 
-            <div className="frame">
-              <div className="frame-wrapper">
-                <div className="div">
-                  <img
-                    className="rectangle"
-                    alt="Offer"
-                    src={
-                      "https://d1dh0rr5xj2p49.cloudfront.net/banner/" +
-                      offerData.image
-                    }
-                  />
-                  <div className="div">
-                    <div className="frame-2">
-                      <p className="text-wrapper">{offerData.title}</p>
-                      <p
-                        className="p"
-                        dangerouslySetInnerHTML={{
-                          __html: offerData.description.split("</p>")[0] + "</p>",
-                        }}
-                      ></p>
-                    </div>
-
+            <div className="promotional-banner">
+              <div className="offer-card">
+                <img
+                  className="offer-image"
+                  alt="Offer"
+                  src={
+                    "https://d1dh0rr5xj2p49.cloudfront.net/banner/" +
+                    offerData.image
+                  }
+                  onError={(e) => { e.target.src = "/medicine-details.png"; }}
+                />
+                <div className="offer-card-content">
+                  <h3 className="offer-title">{offerData.title}</h3>
+                  <div className="offer-terms-section">
                     <div
-                      className="div-wrapper"
-                      onClick={() => handleViewOffer(offerData)}
-                    >
-                      <div className="frame-3">
-                        <div className="text-wrapper-2">{offerData.linkText}</div>
-                        <img className="vector" alt="Vector" src="/vector-3.svg" fetchPriority="high" />
-                      </div>
-                    </div>
+                      className="terms-content"
+                      dangerouslySetInnerHTML={{
+                        __html: offerData.description.split("</p>")[0] + "</p>",
+                      }}
+                    ></div>
                   </div>
+                  <button className="view-offer-btn" onClick={() => handleViewOffer(offerData)}>
+                    {offerData.linkText || "View Offer Now"}
+                    <span className="arrow-icon"> &rarr;</span>
+                  </button>
                 </div>
               </div>
             </div>
 
             <div className="recent-transaction">
-              {transactions.length != 0 && (
-                <div className="text-wrapper-16">
+              {transactions.length !== 0 && (
+                <h3 className="rewards-section-title left-aligned">
                   Recent MIG Cashback Coin Transactions
-                </div>
+                </h3>
               )}
               <div className="transaction-list">
-                {transactions.map((transaction, index) => (
-                  <div
-                    key={index}
-                    className="transaction-item"
-                    onClick={() => handleTransactionClick(transaction)}
-                  >
+                {transactions.map((transaction, index) => {
+                  const isCredit = transaction.reward.toString().includes("+") || parseFloat(transaction.reward) > 0;
+                  return (
                     <div
-                      className={`transaction-icon transaction-icon-${transaction.iconType}`}
-                    ></div>
-                    <div className="transaction-info">
-                      <div className="transaction-description">
-                        {transaction.description}
+                      key={index}
+                      className="transaction-item"
+                      onClick={() => handleTransactionClick(transaction)}
+                    >
+                      <div className={`transaction-icon-badge ${isCredit ? "credit" : "debit"}`}>
+                        {isCredit ? "﹢" : "﹣"}
                       </div>
-                      <div className="transaction-date-time">
-                        <div className="transaction-date">{transaction.date}</div>
-                        <div className="transaction-time">{transaction.time}</div>
+                      <div className="transaction-info">
+                        <div className="transaction-description">
+                          {transaction.description}
+                        </div>
+                        <div className="transaction-date-time">
+                          <span>{transaction.date}</span>
+                          <span className="bullet-dot">&bull;</span>
+                          <span>{transaction.time}</span>
+                        </div>
+                      </div>
+                      <div className={`transaction-reward ${isCredit ? "credit" : "debit"}`}>
+                        {transaction.reward} Coins
                       </div>
                     </div>
-                    <div className="transaction-reward">
-                      {transaction.reward} Coins
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {hasMore && (
                   <button className="view-more-button" onClick={handleLoadMore}>
                     View More
@@ -265,7 +231,6 @@ export const Rewards = () => {
             </div>
           </div>
           <div className="margin-72"></div>
-
         </div>
 
         {selectedTransaction && (
@@ -280,3 +245,5 @@ export const Rewards = () => {
     </>
   );
 };
+
+export default Rewards;

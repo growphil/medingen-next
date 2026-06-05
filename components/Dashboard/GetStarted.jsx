@@ -3,13 +3,11 @@ import './GetStarted.css';
 
 const GetStarted = () => {
     const handleAppStore = () => {
-        // Logic for App Store redirection or modal
         console.log("App Store Clicked");
     };
 
     const handlePlayStore = () => {
-        // Logic for Play Store redirection
-        window.location.href = "https://play.google.com/store/apps/details?id=com.medingen.app"; // Example URL, replace with actual
+        window.location.href = "https://play.google.com/store/apps/details?id=com.medingen.app";
     };
 
     return (
@@ -17,7 +15,7 @@ const GetStarted = () => {
             <div className="get-started-banner">
                 <div className="get-started-content">
                     <h2 className="get-started-title">
-                        Download the app now!
+                        Get Started with Medingen Today
                     </h2>
 
                     <p className="get-started-subtext">

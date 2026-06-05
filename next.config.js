@@ -44,6 +44,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/notification",
+        destination: "/notifications",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

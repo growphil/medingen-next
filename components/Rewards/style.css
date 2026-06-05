@@ -1,831 +1,366 @@
-.rewards {
-  background-color: #ffffff;
+/* Rewards Page - Modern Premium Redesign */
+
+.rewards-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
   width: 100%;
-  height: calc(100dvh);
-  overflow: hidden;
-  position: relative;
+  padding-bottom: 80px;
+}
+
+.reward-content {
+  width: 100%;
+}
+
+.rewards-container {
   display: flex;
   flex-direction: column;
+  gap: 28px;
+  padding: 0 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.rewards .frame {
-  align-items: center;
+/* Info Alert */
+.info-alert {
   display: flex;
-  gap: 13px;
-  position: relative;
-  flex-direction: column;
-  height: 350px;
-}
-
-.rewards .reward-content{
-  height: 100dvh;
-  overflow-y: auto;
-}
-
-.rewards .frame-wrapper {
   align-items: center;
-  background-color: #ffffff;
-  border: 1px solid;
-  border-color: #eff1f4;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px #0000001a;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 8px;
-  overflow: hidden;
-  padding: 11px 8px;
-  position: relative;
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 14px 20px;
+  color: #1e40af;
+  margin-top: 8px;
 }
 
-.rewards .div {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 26px;
-  position: relative;
+.info-icon {
+  font-size: 18px;
+  margin-right: 12px;
+  font-weight: bold;
 }
 
-.rewards .rectangle {
-  height: 152px;
-  object-fit: cover;
-  position: relative;
-  width: 310px;
-}
-
-.rewards .frame-2 {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-}
-
-.rewards .text-wrapper {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
+.info-text {
   font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Titles */
+.rewards-section-title {
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0;
-  line-height: 18.8px;
-  margin-top: -1px;
-  position: relative;
-  width: 295px;
+  color: #1e293b;
+  margin: 8px 0 0 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.rewards .p {
-  color: #8c8c8c;
-  font-family: "Outfit", Helvetica;
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  width: 295px;
+.rewards-section-title.left-aligned {
+  text-align: left;
+  margin-top: 16px;
 }
 
-.rewards .div-wrapper {
-  align-items: center;
-  background-color: #1e1e1e;
-  border-radius: 40px;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 5px;
-  justify-content: center;
-  overflow: hidden;
-  padding: 18px 24px;
-  position: relative;
-}
-
-.rewards .frame-3 {
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 8px;
-  margin-bottom: -5.5px;
-  margin-top: -5.5px;
-  position: relative;
-}
-
-.rewards .text-wrapper-2 {
-  color: #ffffff;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  margin-top: -1px;
-  position: relative;
-  width: fit-content;
-}
-
-.rewards .vector {
-  height: 1px;
-  object-fit: cover;
-  position: relative;
-  width: 8px;
-}
-
-.rewards .frame-4 {
-  align-items: flex-start;
+/* Stats Card Dashboard Layout */
+.rewards-stats-card {
   background-color: #ffffff;
-  border: 1px solid;
-  border-color: #eff1f4;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px #0000001a;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 8px;
-  overflow: hidden;
-  padding: 11px 8px;
-  position: relative;
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.01);
+  display: flex;
+  justify-content: space-around;
+  padding: 28px;
+  gap: 16px;
 }
 
-.rewards .img {
-  align-self: stretch;
-  height: 96px;
+.stat-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  text-align: center;
+}
+
+.stat-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.stat-icon-wrapper.available {
+  background-color: #e0e7ff;
+}
+
+.stat-icon-wrapper.overall {
+  background-color: #fef3c7;
+}
+
+.stat-icon-wrapper.expiring {
+  background-color: #fee2e2;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
   object-fit: cover;
-  position: relative;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-value.expiring {
+  color: #ef4444;
+}
+
+/* Promotional Banner Card Integration */
+.promotional-banner {
   width: 100%;
 }
 
-.rewards .text-wrapper-3 {
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  color: #181818;
-  display: -webkit-box;
-  font-family: "Outfit", Helvetica;
-  font-size: 16px;
-  font-weight: 500;
-  height: 44px;
-  letter-spacing: 0;
-  line-height: 21.5px;
-  margin-top: -1px;
+.offer-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   overflow: hidden;
-  position: relative;
-  text-overflow: ellipsis;
-  width: 139px;
-}
-
-.rewards .text-wrapper-4 {
-  color: #8c8c8c;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 300;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  width: 139px;
-}
-
-.rewards .frame-5 {
-  align-items: center;
-  background-color: #1e1e1e;
-  border-radius: 40px;
-  display: inline-flex;
-  flex: 0 0 auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
   flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  overflow: hidden;
-  padding: 12px 20px;
-  position: relative;
 }
 
-.rewards .frame-6 {
-  align-items: center;
-  display: inline-flex;
-  gap: 8px;
-  height: 16px;
-  position: relative;
+.offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06);
 }
 
-.rewards .text-wrapper-5 {
-  color: #ffffff;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  margin-top: -0.5px;
-  position: relative;
-  width: fit-content;
-}
-
-.rewards .rectangle-2 {
-  height: 96px;
+.offer-image {
+  width: 100%;
+  height: 240px;
   object-fit: cover;
-  position: relative;
-  width: 138px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.rewards .frame-7 {
-  align-items: center;
-  background-color: #1e1e1e;
-  border-radius: 40px;
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  overflow: hidden;
-  padding: 12px 20px;
-  position: relative;
-  width: 139px;
-}
-
-.rewards .frame-8 {
-  align-items: center;
-  display: inline-flex;
-  gap: 8px;
-  height: 16px;
-  margin-left: -1px;
-  margin-right: -1px;
-  position: relative;
-}
-
-.rewards .overlap {
-  background: url(./bg.svg);
-  height: 133px;
-  left: -86px;
-  position: absolute;
-  top: -23px;
-  z-index: 98;
-  width: 532px;
-}
-
-.rewards .group-wrapper {
-  background-color: #f6f2fe;
-  height: 133px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 532px;
-}
-
-.rewards .group {
-  height: 133px;
-  position: relative;
-}
-
-.rewards .group-2 {
-  height: 133px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 265px;
-}
-
-.rewards .rectangle-3 {
-  height: 66px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 66px;
-}
-
-.rewards .overlap-group {
-  height: 134px;
-  left: 66px;
-  position: absolute;
-  top: -1px;
-  width: 199px;
-}
-
-.rewards .rectangle-4 {
-  height: 66px;
-  left: 0;
-  position: absolute;
-  top: 1px;
-  width: 66px;
-}
-
-.rewards .rectangle-5 {
-  height: 66px;
-  left: 66px;
-  position: absolute;
-  top: 67px;
-  width: 66px;
-}
-
-.rewards .rectangle-6 {
-  border: 1.97px solid;
-  border-color: #ffffff;
-  border-radius: 0px 163.93px 163.93px 0px;
-  height: 68px;
-  left: 65px;
-  position: absolute;
-  top: 0;
-  width: 68px;
-}
-
-.rewards .group-3 {
-  background-image: url(./union.svg);
-  background-size: 100% 100%;
-  height: 67px;
-  left: 132px;
-  position: absolute;
-  top: 1px;
-  width: 66px;
-}
-
-.rewards .group-4 {
-  height: 66px;
-  left: 132px;
-  position: absolute;
-  top: 68px;
-  width: 66px;
-}
-
-.rewards .ellipse {
-  height: 66px;
-  left: 0;
-  position: absolute;
-  top: 67px;
-  width: 66px;
-}
-
-.rewards .group-5 {
-  height: 66px;
-  left: 0;
-  position: absolute;
-  top: 66px;
-  width: 66px;
-}
-
-.rewards .group-6 {
-  height: 133px;
-  left: 267px;
-  position: absolute;
-  top: 0;
-  width: 265px;
-}
-
-.rewards .group-7 {
-  background-image: url(./image.svg);
-  background-size: 100% 100%;
-  height: 67px;
-  left: 132px;
-  position: absolute;
-  top: 1px;
-  width: 66px;
-}
-
-.rewards .frame-9 {
-  align-items: flex-start;
-  display: inline-flex;
-  gap: 8px;
-  left: 342px;
-  position: absolute;
-  top: 63px;
-}
-
-.rewards .img-wrapper {
-  background-color: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0px 0px 10px #0000001a;
-  height: 40px;
-  position: relative;
-  width: 40px;
-}
-
-.rewards .img-2 {
-  height: 20px;
-  left: 10px;
-  position: absolute;
-  top: 10px;
-  width: 20px;
-}
-
-.rewards .image {
-  height: 41px;
-  left: 114px;
-  position: absolute;
-  top: 65px;
-  width: 60px;
-}
-
-.rewards .text-wrapper-6 {
-  color: #181818;
-  font-family: "Inter-Regular", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  left: 157px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 74px;
-  width: 57px;
-}
-
-.rewards .frame-10 {
-  align-items: center;
-  display: inline-flex;
-  gap: 253px;
-  left: 102px;
-  position: absolute;
-  top: 33px;
-}
-
-.rewards .text-wrapper-7 {
-  color: #000000;
-  font-family: "Inter-Medium", Helvetica;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  text-align: center;
-  width: fit-content;
-}
-
-.rewards .frame-11 {
-  align-items: flex-start;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 4px;
-  position: relative;
-}
-
-.rewards .solid-system-battery {
-  height: 20px;
-  position: relative;
-  width: 20px;
-}
-
-.rewards .line-system-wifi {
-  height: 15px;
-  left: 2px;
-  position: absolute;
-  top: 2px;
-  width: 15px;
-}
-
-.rewards .overlap-wrapper {
-  height: 40px;
-  position: relative;
-  background-color: white;
-  z-index: 99;
-  width: 92%;
-  margin-top: 30px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-bottom: 30px;
-}
-
-.rewards .overlap-2 {
-  background-color: #ffffff;
-  border: 1px solid;
-  border-color: #00000014;
-  border-radius: 24px;
-  height: 40px;
-  position: relative;
-  width: 327px;
-}
-
-.rewards .overlap-group-2 {
-  background-color: #1e1e1e;
-  border-radius: 24px;
-  height: 40px;
-  left: 158px;
-  position: absolute;
-  top: 0;
-  width: 168px;
-}
-
-.rewards .text-wrapper-8 {
-  color: #ffffff;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  left: 65px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 13px;
-}
-
-.rewards .text-wrapper-9 {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  width: 50%;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 12px;
-}
-
-.rewards .text-wrapper-16 {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 21.5px;
-  white-space: nowrap;
-  margin: 15px;
-  text-align: center;
-  margin-top: 25px;
-}
-
-.rewards .recent-transaction {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-}
-.rewards .transaction-list {
+.offer-card-content {
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin: 15px;
 }
 
-.rewards .transaction-item {
-  display: flex;
-  align-items: flex-start; /* Align items at the start of the flex container */
-  justify-content: space-between;
-  height: 60px; /* Adjust height as needed */
-  width: calc(100% - 20px); /* Make full width of the parent container */
-  padding: 10px; /* Add padding for spacing */
-  border: 1px solid #e0e0e0; /* Optional: Add border for visual separation */
-  border-radius: 8px; /* Optional: Add border radius for rounded corners */
-  background-color: #f9f9f9; /* Optional: Add background color */
+.offer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.4;
 }
 
-.rewards .transaction-icon {
-  width: 40px; /* Adjust icon size as needed */
-  height: 40px; /* Adjust icon size as needed */
-  border-radius: 8px; /* Rounded corners for the icon */
-  background-color: #ccc; /* Placeholder color */
-  margin: auto;
-  margin-right: 10px; /* Space between icon and text */
-  
-}
-
-.rewards .transaction-icon-primary {
-  background-color: #e9f5ff; /* Primary icon color */
-}
-
-.rewards .transaction-icon-secondary {
-  background-color: #ffedad; /* Secondary icon color */
-}
-
-.rewards .transaction-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1; /* Allow info container to take available space */
-  margin: 0 10px; /* Space between info container and reward */
-}
-
-.rewards .transaction-description {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
+.offer-terms-section {
   font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 4px; /* Space between description and date-time */
+  color: #475569;
+  line-height: 1.6;
 }
 
-.rewards .transaction-date-time {
+.view-offer-btn {
+  align-self: flex-start;
+  background-color: #0f172a;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 12px 28px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-offer-btn:hover {
+  background-color: #1e293b;
+}
+
+.view-offer-btn .arrow-icon {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.view-offer-btn:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Recent Transaction Card layout */
+.recent-transaction {
   display: flex;
   flex-direction: column;
-  color: #181818;
-  font-family: "Outfit", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  opacity: 0.5;
+  gap: 16px;
+  margin-top: 12px;
 }
 
-.rewards .transaction-date {
-  margin-bottom: 2px; /* Space between date and time */
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.rewards .transaction-reward {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
-  font-size: 16px;
-  font-weight: 400;
-  text-align: right; /* Align reward text to the right */
-  margin: auto;
-}
-
-
-/* Frame 11 styles */
-.rewards .frame-11 {
+.transaction-item {
+  display: flex;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0px 0px 10px #0000001a;
-  display: flex;
-  gap: 48px;
-  justify-content: center;
-  padding: 16px;
-  position: relative;
-  margin: 0px 20px 30px 20px;
-  padding: 10px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
 }
 
-/* Frame 12 styles */
-.rewards .frame-12 {
+.transaction-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 23, 42, 0.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.transaction-icon-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.transaction-icon-badge.credit {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.transaction-icon-badge.debit {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.transaction-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  position: relative;
+  gap: 4px;
+  padding-left: 16px;
 }
 
-.rewards .image-wrapper,
-.rewards .group-10,
-.rewards .group-11 {
-  background-color: #b2b5fa;
-  border-radius: 136px;
-  height: 56px;
-  position: relative;
-  width: 56px;
-}
-
-.rewards .group-10 {
-  background-color: #ffedad;
-}
-
-.rewards .group-11 {
-  background-color: #a8f9ff;
-}
-
-.rewards .image-2 {
-  height: 38px;
-  left: 9px;
-  object-fit: cover;
-  position: absolute;
-  top: 9px;
-  width: 38px;
-}
-
-.rewards .div-2,
-.rewards .expiring {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
+.transaction-description {
   font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.4;
+}
+
+.transaction-date-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.transaction-date-time .bullet-dot {
+  color: #cbd5e1;
+}
+
+.transaction-reward {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+  margin-left: 16px;
+}
+
+.transaction-reward.credit {
+  color: #16a34a;
+}
+
+.transaction-reward.debit {
+  color: #dc2626;
+}
+
+.view-more-button {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  align-self: center;
+  margin-top: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.view-more-button:hover {
+  background-color: #1e293b;
+}
+
+/* Margin offset */
+.margin-72 {
+  height: 72px;
+}
+
+/* Switcher Integration from Offers */
+.offers-tabs-container {
+  display: inline-flex;
+  background-color: #f1f5f9;
+  border-radius: 9999px;
+  padding: 6px;
+  margin: 8px 0 0 0;
+  border: 1px solid #e2e8f0;
+  align-self: flex-start;
+}
+
+.offers-tabs-container .tab-button {
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: inline-block;
   text-align: center;
 }
 
-.rewards .span {
-  color: #181818;
-  font-family: "Outfit", Helvetica;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-}
-
-.rewards .text-wrapper-13 {
-  font-family: "Outfit", Helvetica;
-  font-weight: 600;
-}
-
-.rewards .container {
-  height: auto;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
-.info-container {
-  align-items: center;
-  display: inline-flex;
-  gap: 6px;
-  position: relative;
-  justify-content: center;
-  background: #e9f6ff;
-  margin-left: 7%;
-  width: 80%;
-  padding: 5px 10px;
-  border-radius: 10px;
-}
-
-.info-container .icon-wrapper {
-  height: 18px;
-  position: relative;
-  width: 17px;
-}
-
-.info-container .icon-overlay {
-  height: 18px;
-  position: relative;
-  width: 15px;
-}
-
-.info-container .icon-circle {
-  background-color: #3c85b9;
-  border-radius: 7.5px;
-  height: 15px;
-  left: 0;
-  position: absolute;
-  top: 1px;
-  width: 15px;
-}
-
-.info-container .icon-text {
+.offers-tabs-container .tab-button.active {
+  background-color: #0f172a;
   color: #ffffff;
-  font-family: "Poppins-Regular", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  left: 6px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
-.info-container .info-text {
-  color: #1e1e1e;
-  font-family: "Poppins-Regular", Helvetica;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  width: 100%;
+.offers-tabs-container .tab-button:not(.active) {
+  background-color: transparent;
+  color: #64748b;
 }
 
-.rewards a {
-  text-decoration: none;
-}
-
-
-.rewards .header-container {
-  display: flex;
-  background: url(./bg.svg);
-  height: 12%;
-
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-}
-
-.rewards .logo-image {
-  height: 40px; /* Adjust as needed */
-  width: auto;
-}
-
-.rewards .actions-container {
-  display: flex;
-  gap: 10px; /* Adjust spacing between icons as needed */
-}
-
-.rewards .action-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background-color: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0px 0px 10px #0000001a;
-  height: 40px;
-  position: relative;
-  width: 40px;
-}
-
-.rewards .action-icon {
-  height: 24px; /* Adjust size of the icons as needed */
-  width: auto;
-}
-
-@media only screen and (min-width: 700px) {
-  .rewards .overlap-wrapper {
-    justify-content: flex-start;
-    margin-left: 5%;
-  }
-  .rewards .text-wrapper-16, .rewards .frame-11 {
-    text-align: left;
-    margin-left: 5%;
-  }
-  .rewards .frame-11{
-    justify-content: space-evenly;
-  }
-  .rewards .frame-12{
-    flex-direction: row;
-  }
-  .rewards .expiring, .rewards .div-2{
-    text-align: left;
-    margin-left: 20px;
-  }
-  .rewards .frame{
-    align-items: flex-start;
-    margin-left: 5%;
-  }
-  .rewards .transaction-list{
-    margin: 0 5% 5% 5%;
-  }
+.offers-tabs-container .tab-button:not(.active):hover {
+  color: #0f172a;
+  background-color: rgba(226, 232, 240, 0.5);
 }

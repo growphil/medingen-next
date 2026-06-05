@@ -6,7 +6,6 @@ import {
   addToCart,
   getOrders,
   getUser,
-  updateOrderAutoRefill,
 } from "../../api/Api";
 import Swal from "sweetalert2";
 import Link from "next/link";
@@ -18,88 +17,11 @@ import {
   FiFileText, 
   FiDatabase, 
   FiLogOut,
-  FiShoppingBag,
-  FiStar,
-  FiChevronDown,
   FiChevronRight,
   FiChevronLeft,
   FiRotateCw
 } from "react-icons/fi";
-import { LuCoins } from "react-icons/lu";
 import { handleSignOut } from "../../api/Api";
-
-// ICONS
-import pendingIcon from "./icons/Pending.svg";
-import confirmedIcon from "./icons/Confirmed.svg";
-import outForDeliveryIcon from "./icons/out_for_ delivery.svg";
-import deliveredIcon from "./icons/delivered.svg";
-import callNowIcon from "./icons/CallNow.svg";
-import payNowIcon from "./icons/pay_now.svg";
-import reorderIcon from "./icons/Reorder.svg";
-
-const statusMapping = {
-  pending_confirm: {
-    icon: pendingIcon,
-    label: "Pending Confirm By Expertise",
-    type: "Call Now",
-    message: "To confirm your order immediately, call our expert.",
-  },
-  confirm: {
-    icon: confirmedIcon,
-    label: "Your Order Is Confirmed",
-    type: "Pay Now",
-    message: "Your Order Is Confirmed Make Payment",
-  },
-  payment: {
-    icon: confirmedIcon,
-    label: "Payment Complete",
-    type: "Call Now",
-    message: "Payment received! We'll process your order shortly.",
-  },
-  dispatched: {
-    icon: outForDeliveryIcon,
-    label: "Your Order Is Out For Delivery",
-    type: "Track Order",
-    message: "Contact Our Expertise To Track And Know About Your Order.",
-  },
-  out_for_delivery: {
-    icon: outForDeliveryIcon,
-    label: "Your Order Is Out For Delivery",
-    type: "Track Order",
-    message: "Contact Our Expertise To Track And Know About Your Order.",
-  },
-  delivered: {
-    icon: deliveredIcon,
-    label: "Your Order Delivered",
-    type: "Reorder",
-    message: "Click Here To Reorder Immediately",
-  },
-  cancelled: {
-    icon: pendingIcon,
-    label: "Your Order Cancelled",
-    type: "Reorder",
-    message: "Order was cancelled. Want to try again?",
-  },
-  refund: {
-    icon: pendingIcon,
-    label: "Refunded",
-    type: "Call Now",
-    message: "Your refund is being processed. You'll receive it shortly.",
-  },
-  return: {
-    icon: deliveredIcon,
-    label: "Return Completed",
-    type: "Reorder",
-    message: "Your return has been completed. Order again?",
-  },
-};
-
-const actionIconMap = {
-  "Call Now": callNowIcon,
-  "Pay Now": payNowIcon,
-  Reorder: reorderIcon,
-};
-
 
 const getNumericPrice = (priceStr) => {
   if (priceStr === null || priceStr === undefined) return "0.00";
@@ -124,21 +46,31 @@ const deduplicateProducts = (products) => {
   }
 
   const productMap = {};
-
   products.forEach((product) => {
-    const productId = product.id;
+    const productId = product.id || product.product_id;
+    if (!productId) return;
     
     if (productMap[productId]) {
       productMap[productId].quantity =
         getValidQuantity(productMap[productId].quantity) +
         getValidQuantity(product.quantity);
     } else {
-    
       productMap[productId] = { ...product };
     }
   });
 
   return Object.values(productMap);
+};
+
+const nameToSlug = (name) => {
+  return name
+    ? name
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "")
+    : "";
 };
 
 export const Orders = () => {
@@ -156,53 +88,18 @@ export const Orders = () => {
       navigate("/login");
       return;
     }
-    setLoading(true);
-
-    // Scroll to top when page changes
-    const ordersView = document.querySelector('.orders-view');
-    if (ordersView) ordersView.scrollTo({ top: 0, behavior: 'auto' });
-    window.scrollTo({ top: 0, behavior: 'auto' });
-    document.body.scrollTo({ top: 0, behavior: 'auto' });
-    document.documentElement.scrollTo({ top: 0, behavior: 'auto' });
-
-    const fetchOrders = async () => {
-      try {
-        const response = await getOrders(page, searchInput, 3);
-        
-        // DEBUG: Log all statuses to identify unknown ones
-        response.orders?.forEach((order) => {
-          const status = (order.cartStatus || order.status || "pending_confirm").toLowerCase();
-          if (!statusMapping[status]) {
-            console.warn(`Unknown status found: "${status}" in order ${order.cart_id || order.id}`);
-          }
-        });
-        
-        setOrders(response.orders || []);
-        setTotalPages(response.total_pages || 1);
-        setTotalOrders(response.total_count || (response.total_pages * 3) || 0);
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Failed to fetch orders",
-        });
-        setOrders([]);
-        setTotalPages(1);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
+    fetchOrdersList();
   }, [page, searchInput, navigate]);
 
-  const handleRefresh = async () => {
+  const fetchOrdersList = async () => {
     setLoading(true);
     try {
-      const response = await getOrders(page, searchInput, 3);
+      const response = await getOrders(page, searchInput, 10);
       setOrders(response.orders || []);
       setTotalPages(response.total_pages || 1);
-      setTotalOrders(response.total_count || (response.total_pages * 3) || 0);
+      setTotalOrders(response.total_count || (response.total_pages * 10) || 0);
     } catch (error) {
+      console.error("Failed to fetch orders:", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -215,8 +112,12 @@ export const Orders = () => {
     }
   };
 
+  const handleRefresh = () => {
+    fetchOrdersList();
+  };
+
   const handleTrack = (cart_id, order) => {
-    navigate(`/order/${order.cart_id}`, { state: { orders: order } });
+    navigate(`/track-order/${order.cart_id}`, { state: { orders: order } });
   };
 
   const handleViewDetails = (cart_id, order) => {
@@ -224,10 +125,7 @@ export const Orders = () => {
   };
 
   const handleReorder = async (products) => {
-    // Deduplicate products first
     const deduplicatedProducts = deduplicateProducts(products);
-    
-    // Filter out products with invalid quantities
     const validProducts = deduplicatedProducts.filter(
       (product) => getValidQuantity(product.quantity) > 0
     );
@@ -246,7 +144,7 @@ export const Orders = () => {
     const failedItems = [];
     for (const p of validProducts) {
       try {
-        await addToCart(p.id, getValidQuantity(p.quantity));
+        await addToCart(p.id || p.product_id, getValidQuantity(p.quantity));
       } catch (error) {
         failedItems.push(p.name);
       }
@@ -272,17 +170,8 @@ export const Orders = () => {
 
   return (
     <>
-      <div className="orders-view">
+      <div className="orders-view" style={{ fontFamily: "Outfit, sans-serif" }}>
         <Header title="My Orders" maxWidth={1200} showMobileBack={true} />
-        
-        <div className="mobile-orders-filter-row">
-          <select className="mobile-orders-filter-select">
-            <option value="last3">Last 3 months</option>
-            <option value="last6">Last 6 months</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-          </select>
-        </div>
         
         <div className="profile-main-layout">
           {/* Sidebar */}
@@ -299,10 +188,6 @@ export const Orders = () => {
               <Link href="/savedaddress" className="sidebar-item">
                 <FiMapPin className="sidebar-icon" />
                 Manage Addresses
-              </Link>
-              <Link href="/upload-prescription" state={{ parent: 'profile' }} className="sidebar-item">
-                <FiFileText className="sidebar-icon" />
-                Saved Prescriptions
               </Link>
               <button className="sidebar-item">
                 <FiDatabase className="sidebar-icon" />
@@ -335,7 +220,6 @@ export const Orders = () => {
               </div>
             </div>
 
-
             {loading ? (
               <div className="orders-list">
                 {[...Array(3)].map((_, i) => (
@@ -343,11 +227,9 @@ export const Orders = () => {
                 ))}
               </div>
             ) : orders.length === 0 ? (
-              <div className="no-orders">
-                <p>
-                  No orders to display. Place your first order and enjoy the offers
-                  and cashback!
-                </p>
+              <div className="no-orders" style={{ textAlign: "center", padding: "60px 20px", color: "#6b7280" }}>
+                <p style={{ fontSize: "16px", fontWeight: 600 }}>No orders to display.</p>
+                <p style={{ fontSize: "14px", marginTop: "4px" }}>Place your first order and enjoy the offers and cashback!</p>
               </div>
             ) : (
               <>
@@ -362,16 +244,18 @@ export const Orders = () => {
                     />
                   ))}
                 </div>
-                 {totalPages > 1 && (
-                  <div className="orders-pagination">
-                    <div className="orders-pagination-info">
-                      Showing {Math.min((page - 1) * 3 + 1, totalOrders)} to {Math.min(page * 3, totalOrders)} of {totalOrders} orders
+
+                {totalPages > 1 && (
+                  <div className="orders-pagination" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "24px" }}>
+                    <div className="orders-pagination-info" style={{ fontSize: "14px", color: "#6b7280" }}>
+                      Showing {Math.min((page - 1) * 10 + 1, totalOrders)} to {Math.min(page * 10, totalOrders)} of {totalOrders} orders
                     </div>
-                    <div className="orders-pagination-controls">
+                    <div className="orders-pagination-controls" style={{ display: "flex", gap: "8px" }}>
                       <button 
                         className={`orders-page-arrow ${page <= 1 ? 'disabled' : ''}`}
                         onClick={() => setPage(page - 1)}
                         disabled={page <= 1}
+                        style={{ padding: "8px 12px", border: "1px solid #e5e7eb", borderRadius: "6px", cursor: "pointer", background: page <= 1 ? "#f3f4f6" : "#fff" }}
                       >
                         <FiChevronLeft />
                       </button>
@@ -380,6 +264,15 @@ export const Orders = () => {
                           key={i}
                           className={`orders-page-num ${page === i + 1 ? 'active' : ''}`}
                           onClick={() => setPage(i + 1)}
+                          style={{
+                            padding: "8px 14px",
+                            border: "1px solid #e5e7eb",
+                            borderRadius: "6px",
+                            cursor: "pointer",
+                            backgroundColor: page === i + 1 ? "#000" : "#fff",
+                            color: page === i + 1 ? "#fff" : "#000",
+                            fontWeight: "bold"
+                          }}
                         >
                           {i + 1}
                         </button>
@@ -388,6 +281,7 @@ export const Orders = () => {
                         className={`orders-page-arrow ${page >= totalPages ? 'disabled' : ''}`}
                         onClick={() => setPage(page + 1)}
                         disabled={page >= totalPages}
+                        style={{ padding: "8px 12px", border: "1px solid #e5e7eb", borderRadius: "6px", cursor: "pointer", background: page >= totalPages ? "#f3f4f6" : "#fff" }}
                       >
                         <FiChevronRight />
                       </button>
@@ -405,23 +299,8 @@ export const Orders = () => {
   );
 };
 
-// Skeleton Loader
 const SkeletonOrderCard = () => (
-  <div className="order-card-v2 skeleton">
-    <div className="order-card-header-v2">
-      <div className="skeleton-header-box"></div>
-      <div className="skeleton-header-box"></div>
-      <div className="skeleton-header-box"></div>
-      <div className="skeleton-status-box"></div>
-    </div>
-    <div className="order-card-body-v2">
-      <div className="skeleton-body-left">
-        <div className="skeleton-thumbnails"></div>
-        <div className="skeleton-text"></div>
-      </div>
-      <div className="skeleton-body-right"></div>
-    </div>
-  </div>
+  <div className="order-card-v2 skeleton" style={{ animation: "pulse 1.5s infinite", background: "#f9fafb", border: "1px solid #f3f4f6", height: "180px", borderRadius: "12px", marginBottom: "16px" }}></div>
 );
 
 const OrderCard = ({ order, handleReorder, handleTrack, handleViewDetails }) => {
@@ -457,18 +336,27 @@ const OrderCard = ({ order, handleReorder, handleTrack, handleViewDetails }) => 
   };
 
   const statusInfo = getStatusInfo(rawStatus);
-  const statusDetails = statusMapping[rawStatus] || {
-    type: "Call Now",
-    message: "Contact support for more details.",
-  };
 
   const paymentMode = (order.payment_mode || "").toLowerCase();
-  const finalActionType =
-    rawStatus === "confirm" && paymentMode === "online"
-      ? "Pay Now"
-      : rawStatus === "confirm"
-      ? "Call Now"
-      : statusDetails.type;
+  
+  const getFinalActionType = () => {
+    if (rawStatus === "confirm") {
+      return paymentMode === "online" ? "Pay Now" : "Call Now";
+    }
+    switch (rawStatus) {
+      case 'dispatched':
+      case 'out_for_delivery':
+        return 'Track Order';
+      case 'delivered':
+      case 'cancelled':
+      case 'return':
+        return 'Reorder';
+      default:
+        return 'Call Now';
+    }
+  };
+
+  const finalActionType = getFinalActionType();
 
   const handlePay = () => {
     const cartValue = parseFloat(getNumericPrice(orderSummary.total_selling_price));
@@ -576,16 +464,17 @@ const OrderCard = ({ order, handleReorder, handleTrack, handleViewDetails }) => 
             className={`order-action-btn-v2 ${finalActionType === 'Track Order' || finalActionType === 'Reorder' ? 'primary' : 'secondary'}`}
             onClick={(e) => {
               e.stopPropagation();
-              if (finalActionType === "Reorder" || finalActionType === "Re-order") handleReorder(products);
+              if (finalActionType === "Reorder") handleReorder(products);
               else if (finalActionType === "Call Now") window.open("tel:+917090123709");
               else if (finalActionType === "Pay Now") handlePay();
               else handleTrack(cart_id, order);
             }}
           >
-            {finalActionType === 'Reorder' ? 'Re-order' : finalActionType}
+            {finalActionType}
           </button>
         </div>
       </div>
     </div>
   );
 };
+

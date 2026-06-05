@@ -31,10 +31,8 @@ const normalizeEventToStep = (evt = "") => {
 };
 
 const OrderTrack = () => {
-  const { params } = useLegacyRouting();
-  const id = params?.id;
-  const { navigate } = useLegacyRouting();
-  const { location } = useLegacyRouting();
+  const { params, navigate, location } = useLegacyRouting();
+  const id = params?.id || params?.orderId;
 
   const [order, setOrder] = useState(null);
   const [trackingId, setTrackingId] = useState(null);
@@ -174,10 +172,10 @@ const OrderTrack = () => {
     setLiveTimeline(merged);
   }, [order, trackingEvents]);
 
-  if (!order) return <div className="loading">Order not found</div>;
+  if (!order) return <div className="loading" style={{ padding: "40px", textAlign: "center", fontFamily: "Outfit, sans-serif" }}>Order tracking details not found.</div>;
 
   return (
-    <div className="orders-track-page">
+    <div className="orders-track-page" style={{ fontFamily: "Outfit, sans-serif" }}>
       <Header title="Track Order" maxWidth={1200} showMobileBack={true} />
       <header className="track-header">
         <div className="track-container track-header-inner">

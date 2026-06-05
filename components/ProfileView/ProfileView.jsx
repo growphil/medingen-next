@@ -460,15 +460,6 @@ export const ProfileView = () => {
                   </div>
                   <FiChevronRight className="mobile-menu-chevron" size={16} />
                 </Link>
-                <Link href="/upload-prescription" state={{ parent: 'profile' }} className="mobile-menu-item">
-                  <div className="mobile-menu-left">
-                    <div className="mobile-menu-icon-wrapper">
-                      <FiFileText size={18} />
-                    </div>
-                    <span>Saved Prescription</span>
-                  </div>
-                  <FiChevronRight className="mobile-menu-chevron" size={16} />
-                </Link>
                 <Link href="/rewards" className="mobile-menu-item">
                   <div className="mobile-menu-left">
                     <div className="mobile-menu-icon-wrapper">
@@ -528,10 +519,6 @@ export const ProfileView = () => {
                 <Link href="/savedaddress" className="sidebar-item">
                   <FiMapPin className="sidebar-icon" />
                   Manage Addresses
-                </Link>
-                <Link href="/upload-prescription" state={{ parent: 'profile' }} className="sidebar-item">
-                  <FiFileText className="sidebar-icon" />
-                  Saved Prescriptions
                 </Link>
                 <button className="sidebar-item">
                   <FiDatabase className="sidebar-icon" />
@@ -781,10 +768,6 @@ export const ProfileView = () => {
                 <Link href="/savedaddress" className="mobile-link-item">
                   <FiMapPin className="link-icon" />
                   Manage Addresses
-                </Link>
-                <Link href="/upload-prescription" state={{ parent: 'profile' }} className="mobile-link-item">
-                  <FiFileText className="link-icon" />
-                  Saved Prescriptions
                 </Link>
                 <button className="mobile-link-item logout" onClick={handleLogout}>
                   <FiLogOut className="link-icon" />
