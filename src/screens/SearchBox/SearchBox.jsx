@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
+import { Helmet } from "react-helmet";
 import { searchProducts, searchSalt } from "../../api/Api";
 import Navigation from "../Dashboard/Navigation";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -92,6 +93,18 @@ export const SearchBox = () => {
 
   return (
     <div className="search-box">
+      <Helmet>
+        <title>Search Medicines Online | Medingen Pharmacy</title>
+        <meta name="description" content="Search and buy generic medicines online on Medingen. Find affordable substitutes for any brand and save up to 80%." />
+        <link rel="canonical" href="https://medingen.in/searchbox" />
+        <meta property="og:title" content="Search Medicines Online | Medingen Pharmacy" />
+        <meta property="og:description" content="Search and buy generic medicines online on Medingen. Find affordable substitutes for any brand and save up to 80%." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://medingen.in/searchbox" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Search Medicines Online | Medingen Pharmacy" />
+        <meta name="twitter:description" content="Search and buy generic medicines online on Medingen. Find affordable substitutes for any brand and save up to 80%." />
+      </Helmet>
       <div className="overlap">
         <div className="frame">
           <div className="overlap-group">

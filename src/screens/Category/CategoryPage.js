@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
 import "./style.css";
 
@@ -199,6 +200,13 @@ export const CategoryPage = () => {
   const categoryFromUrl = slugToName(mainCategory);   // e.g. "personal-care" → "Personal Care"
   const subCategoryFromUrl = slugToName(subCategory); // e.g. "skin-care-125" → "Skin Care"
   // ─────────────────────────────────────────────────────────────────────────
+
+  const categoryName = subCategoryFromUrl || categoryFromUrl || "Medicines";
+  const pageTitle = `${categoryName} Online at Low Prices | Medingen`;
+  const pageDescription = `Buy ${categoryName} online from Medingen. Find high-quality generic equivalents for ${categoryName} and save up to 80% on your healthcare bills.`;
+  const canonicalUrl = subCategoryFromUrl 
+    ? `https://medingen.in/categories/${mainCategory}/${subCategory}`
+    : `https://medingen.in/categories/${mainCategory}`;
 
   const scrollRef = useRef(null);
   const sortRef = useRef(null);
@@ -690,6 +698,18 @@ export const CategoryPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Helmet>
       <div className="category-container" onScroll={(e) => {
         if (e.target.scrollTop > 300) {
           setShowGoToTop(true);

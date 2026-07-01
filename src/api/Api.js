@@ -93,20 +93,23 @@ export const subscribeNotification = async (subscription) => {
 };
 
 const checkLogin = () => {
-  if (Cookies.get('jwt_token')) {
-    return Cookies.get('jwt_token');
+  const token = Cookies.get('jwt_token');
+  if (token && token !== 'undefined' && token !== 'null') {
+    return token;
   }
   return false;
 }
 
 const getUser = () => {
+  const customerId = Cookies.get('customer_id');
+  const isLoggedIn = (customerId && customerId !== 'undefined' && customerId !== 'null') ? true : false;
   return {
-    customer_id: Cookies.get('customer_id'),
+    customer_id: isLoggedIn ? customerId : undefined,
     name: Cookies.get('customer_name'),
     email: Cookies.get('email'),
     location: Cookies.get('location'),
     selectedAddress: Cookies.get('selectedAddress'),
-    isLoggedIn: Cookies.get('customer_id') ? true : false
+    isLoggedIn: isLoggedIn
   }
 }
 
@@ -1474,23 +1477,25 @@ export const selectAddress = async (addressId, navigate) => {
 };
 
 export const getDefaultAddress = async (navigate) => {
-  try {
-    const token = checkToken(navigate);
-    if (!token) return;
+  const token = Cookies.get("jwt_token");
+  if (typeof window === "undefined" || !token || token === "undefined" || token === "null") {
+    return null;
+  }
 
+  try {
     const response = await axios.get(API_ENDPOINT + 'get_default_address', {
       headers: {
         Authorization: `Bearer ${token}`,
       }
     });
 
-    if (response.status === 200) {
-      const defaultAddress = response.data;
-      return defaultAddress;
-    } else {
+    if (response && response.status === 200) {
+      return response.data || {};
     }
+    return {};
   } catch (error) {
-
+    console.warn("Default address unavailable");
+    return null;
   }
 };
 
@@ -1676,11 +1681,15 @@ export const addToCart = async (productId = null, prescriptionId = 0, quantity =
 };
 
 export const getProductDetails = async (id = 0, name = "") => {
-  const response = await axios.get(API_ENDPOINT + `product_details/${id}?name=${name}`, {
-
-  });
-  return response.data;
+  try {
+    const response = await axios.get(API_ENDPOINT + `product_details/${id}?name=${name}`);
+    return response.data;
+  } catch (error) {
+    console.warn("Product details unavailable for slug:", name);
+    return null;
+  }
 }
+
 
 
 export const loadCoupons = async (cart_id) => {

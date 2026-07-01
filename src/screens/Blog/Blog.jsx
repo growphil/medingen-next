@@ -1004,34 +1004,13 @@ export const Blog = () => {
     <>
       {!loading && blogData && (
         <Helmet>
-          <title>
-            {blogData?.meta_title || blogData?.blog_name || "Medingen Blog"}
-          </title>
-
-          <meta name="description" content={blogData?.meta_description || ""} />
-          <meta name="keywords" content={blogData?.meta_keywords || ""} />
-          <meta name="author" content={blogData?.meta_author || ""} />
-          <meta name="author:title" content={blogData?.meta_author_title || ""} />
-          <meta name="author:profile" content={blogData?.meta_author_profile_url || ""} />
-
-          {/* OG and Twitter tags */}
-          <meta property="og:title" content={blogData?.meta_title || ""} />
-          <meta property="og:description" content={blogData?.meta_description || ""} />
-          <meta property="og:url" content={blogLink} />
-          <meta
-            property="og:image"
-            content={`https://d1dh0rr5xj2p49.cloudfront.net/blogs/images/${blogData?.blog_image_url}`}
-          />
-
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={blogData?.meta_title || ""} />
-          <meta name="twitter:description" content={blogData?.meta_description || ""} />
-          <meta
-            name="twitter:image"
-            content={`https://d1dh0rr5xj2p49.cloudfront.net/blogs/images/${blogData?.blog_image_url}`}
-          />
-
-          <link rel="canonical" href={blogLink} />
+          <title>{finalTitle}</title>
+          {finalMetas.map((m, i) => (
+            <meta key={i} {...m} />
+          ))}
+          {finalLinks.map((l, i) => (
+            <link key={i} {...l} />
+          ))}
           {jsonLd.map((block, i) => (
             <script key={i} type="application/ld+json">
               {block}

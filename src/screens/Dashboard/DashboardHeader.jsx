@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import HeadActions from "../../components/HeadActions/HeadActions";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getDefaultAddress, getUser } from "../../api/Api";
+import Cookies from "js-cookie";
+
 
 import { searchProducts, searchSalt, getMainCategories } from "../../api/Api";
 import Swal from 'sweetalert2';
@@ -87,118 +89,117 @@ const nameToSlug = (name) =>
     window.location.href = "/about#" + section;
   };
 
+  const jwt_token = typeof window !== "undefined" ? Cookies.get("jwt_token") : null;
+
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserData = () => {
       try {
         const data = getUser();
-
         if (data.isLoggedIn) {
-          const userData = { ...data };
-
-          if (userData.selectedAddress) {
-            try {
-              const response = await getDefaultAddress();
-
-              if (response && response.default_address) {
-                const { address1, state } = response.default_address;
-                setUser({
-                  name: userData.firstName || userData.name,
-                  location: `${address1}, ${state}`,
-                });
-                return;
-              } else {
-                setUser({
-                  name: userData.firstName || userData.name,
-                  location: "",
-                });
-              }
-            } catch (error) {
-              console.error("Error fetching default address", error);
-              setUser({
-                name: userData.firstName || userData.name,
-                location: "",
-              });
-            }
-          } else {
-            setUser({
-              name: userData.firstName || userData.name,
-              location: userData.defaultAddress || "",
-            });
-          }
+          setUser(prev => ({
+            ...prev,
+            name: data.firstName || data.name,
+          }));
+        } else {
+          setUser({ name: "", location: "" });
         }
       } catch (error) {
         console.error("Error fetching user data", error);
       }
+    };
+    fetchUserData();
+  }, []);
 
-      // ✅ Only try geolocation if no saved location is available
-      if (!user.location) {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
-              const { latitude, longitude } = position.coords;
+  useEffect(() => {
+    const loadDefaultAddress = async () => {
+      if (!jwt_token) {
+        setUser(prev => ({ ...prev, location: "" }));
+        triggerGeolocation();
+        return;
+      }
 
-              try {
-                const locationResponse = await fetch(
-                  `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66d4782bb3d09960167594uts506c6d`
-                );
-                const locationData = await locationResponse.json();
+      try {
+        const data = getUser();
+        if (data.selectedAddress) {
+          const response = await getDefaultAddress();
+          if (response && response.default_address) {
+            const { address1, state } = response.default_address;
+            setUser(prev => ({
+              ...prev,
+              location: `${address1}, ${state}`,
+            }));
+            return;
+          }
+        }
+        
+        setUser(prev => ({
+          ...prev,
+          location: data.defaultAddress || "",
+        }));
+      } catch (error) {
+        console.warn("Default address unavailable");
+        setUser(prev => ({ ...prev, location: "" }));
+      }
+      
+      triggerGeolocation();
+    };
 
-                const city =
-                  locationData.address.city ||
-                  locationData.address.town ||
-                  locationData.address.village ||
-                  locationData.address.county ||
-                  locationData.address.state_district ||
-                  "Unknown City";
-
-                const area =
-                  locationData.address.suburb ||
-                  locationData.address.neighbourhood ||
-                  locationData.address.locality ||
-                  locationData.address.ward ||
-                  locationData.address.road ||
-                  "Unknown Area";
-
-                const postalCode =
-                  locationData.address.postcode ||
-                  "Unknown Pincode";
-
-                setUser((prevState) => ({
+    const triggerGeolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              const locationResponse = await fetch(
+                `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66d4782bb3d09960167594uts506c6d`
+              );
+              const locationData = await locationResponse.json();
+              const city =
+                locationData.address.city ||
+                locationData.address.town ||
+                locationData.address.village ||
+                locationData.address.county ||
+                locationData.address.state_district ||
+                "Unknown City";
+              const area =
+                locationData.address.suburb ||
+                locationData.address.neighbourhood ||
+                locationData.address.locality ||
+                locationData.address.ward ||
+                locationData.address.road ||
+                "Unknown Area";
+              const postalCode =
+                locationData.address.postcode ||
+                "Unknown Pincode";
+              setUser((prevState) => {
+                if (prevState.location) return prevState;
+                return {
                   ...prevState,
                   location: `${area}, ${city}, ${postalCode}`,
-                }));
-              } catch (geoError) {
-                console.error("Error fetching geocoded location:", geoError);
-                setUser((prevState) => ({
-                  ...prevState,
-                  location: "Turn on location to get better results",
-                }));
-              }
-            },
-            (error) => {
-              // ✅ No popup → just fallback silently
-              setUser((prevState) => ({
-                ...prevState,
-                location: "Location not available",
-              }));
-            },
-            {
-              enableHighAccuracy: true,
-              timeout: 10000,
-              maximumAge: 0,
+                };
+              });
+            } catch (geoError) {
+              console.error("Error fetching geocoded location:", geoError);
             }
-          );
-        } else {
-          setUser((prevState) => ({
-            ...prevState,
-            location: "Geolocation not supported",
-          }));
-        }
+          },
+          (error) => {
+            setUser((prevState) => {
+              if (prevState.location) return prevState;
+              return { ...prevState, location: "Location not available" };
+            });
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      } else {
+        setUser((prevState) => {
+          if (prevState.location) return prevState;
+          return { ...prevState, location: "Geolocation not supported" };
+        });
       }
     };
 
-    fetchUserData();
-  }, []);
+    loadDefaultAddress();
+  }, [jwt_token]);
 
   useEffect(() => {
     const handleScroll = () => {

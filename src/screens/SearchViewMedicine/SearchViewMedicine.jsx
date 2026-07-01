@@ -2332,9 +2332,36 @@ export default function SearchViewMedicine() {
         <meta name="description" content={product.meta_description || product.metaDescription || product.used_for || product.productDescription || "Trusted online pharmacy product details."} />
         <meta name="keywords" content={product.meta_keywords || product.metaKeywords || (product.tags && product.tags.join(", ")) || "online pharmacy, medicine"} />
         <link rel="canonical" href={`https://medingen.in/product/${product.product_name_url || product.productName?.toLowerCase().replace(/\s+/g, "-")}`} />
+        
+        {/* Open Graph Tags */}
         <meta property="og:title" content={product.meta_title || product.metaTitle || product.productName || product.name || "Medingen Product"} />
         <meta property="og:description" content={product.meta_description || product.metaDescription || product.used_for || product.productDescription || "Trusted online pharmacy product details."} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`https://medingen.in/product/${product.product_name_url || product.productName?.toLowerCase().replace(/\s+/g, "-")}`} />
+        <meta property="og:image" content={slides[0]?.url || (product.first_image_url ? `https://d1dh0rr5xj2p49.cloudfront.net/products/${product.first_image_url}` : "")} />
+        
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.meta_title || product.metaTitle || product.productName || product.name || "Medingen Product"} />
         <meta name="twitter:description" content={product.meta_description || product.metaDescription || product.used_for || product.productDescription || "Trusted online pharmacy product details."} />
+        <meta name="twitter:image" content={slides[0]?.url || (product.first_image_url ? `https://d1dh0rr5xj2p49.cloudfront.net/products/${product.first_image_url}` : "")} />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.productName || product.name || "Medingen Product",
+            "image": slides[0]?.url || (product.first_image_url ? `https://d1dh0rr5xj2p49.cloudfront.net/products/${product.first_image_url}` : ""),
+            "description": product.productDescription || product.meta_description || product.used_for || "Trusted online pharmacy product details.",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "INR",
+              "price": product.ourPrice || product.product_pricing_new || product.selling_price || 0.0,
+              "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            }
+          })}
+        </script>
       </Helmet>
 
       <style>{`

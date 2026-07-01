@@ -11,58 +11,59 @@ import Swal from "sweetalert2";
 import "./App.css";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-// Import all components
+// Import critical shell components statically
 import { Splash1 } from "./screens/Splash1/Splash1";
 import { Dashboard, FaqSchema } from "./screens/Dashboard/Dashboard";
-import { SavedAddress } from "./screens/SavedAddress/SavedAddress";
-import { AddressNew } from "./screens/AddressNew/AddressNew";
-import { UploadPrescription } from "./screens/UploadPrescription/UploadPrescription";
-import { SelectPrescription } from "./screens/SelectPrescription/SelectPrescription";
-import { OrderPlacedSuccess } from "./screens/OrderPlacedSuccess/OrderPlacedSuccess";
-import { OrderConfirmed } from "./screens/OrderConfirmed/OrderConfirmed";
-import { Splash3 } from "./screens/Splash3/Splash3";
-import { Login1 } from "./screens/Login1/Login1";
-import { Login2 } from "./screens/Login2/Login2";
-import { Login3 } from "./screens/Login3/Login3";
-import { EnterPassword } from "./screens/EnterPassword/EnterPassword";
-import { ExistingUser } from "./screens/ExistingUser/ExistingUser";
-import { ChangePassword } from "./screens/ChangePassword/ChangePassword";
-import { PersonalInfo } from "./screens/PersonalInfo/PersonalInfo";
-import { CreateProfile } from "./screens/CreateProfile/CreateProfile";
-import { Createsuccess } from "./screens/CreateSuccess/CreateSuccess";
-import { SearchBox } from "./screens/SearchBox/SearchBox";
-import { SearchResults } from "./screens/SearchResults/SearchResults";
-import SearchViewMedicine from "./screens/SearchViewMedicine/SearchViewMedicine";
-import { CompareView } from "./screens/CompareView/CompareView";
-import { Offers } from "./screens/Offers/Offers";
-import { OffersView } from "./screens/OffersView/OffersView";
-import { Rewards } from "./screens/Rewards/Rewards";
-import { RewardsView } from "./screens/RewardsView/RewardsView";
-import { RewardsViewMIG } from "./screens/RewardsViewMig/RewardsViewMIG";
-import { PharmacistVerification } from "./screens/PharmacistVerification/PharmacistVerification";
-import { OrderProgress } from "./screens/OrderProgressConfirmation/OrderProgressConfirmation";
-import { OrderPayment } from "./screens/OrderPayment/OrderPayment";
-import { PaymentPage } from "./screens/PaymentPage/PaymentPage";
-import { Orders } from "./screens/Orders/Orders";
-import OrderTrack from './screens/OrdersTrack/OrdersTrack';
-import OrderDetails from './screens/OrderDetails/OrderDetails';
-import Invoice from './screens/OrderDetails/Invoice';
-import { Notifications } from "./screens/Notifications/Notifications";
-import { ProfileView } from "./screens/ProfileView/ProfileView";
-import { CreatePassword } from "./screens/CreatePassword/CreatePassword";
-import { CapturePrescription } from "./screens/CapturePrescription/CapturePrescription";
-import { HelpCenter, LandingPage, Footer } from "./screens/LandingPage/LandingPage";
-import GenericMedicineOnline from "./screens/GenericMedicineOnline/GenericMedicineOnline";
-
-import { Blogs } from "./screens/Blogs/Blogs";
-import { Blog } from "./screens/Blog/Blog";
-import { PolicyPages } from "./screens/PolicyPages/PolicyPages";
-import { SaltPage } from "./screens/SaltPage/SaltPage";
-import { Reminder } from "./screens/Reminder/Reminder";
+import { Footer } from "./screens/LandingPage/LandingPage";
 import Redirects from "./Redirects";
-import { Category } from "./screens/Category/Category";
-import { AllCategories } from "./screens/Category/AllCategories";
-import { CategoryPage } from "./screens/Category/CategoryPage";
+
+// Lazy load route screens for code splitting
+const SavedAddress = React.lazy(() => import("./screens/SavedAddress/SavedAddress").then(m => ({ default: m.SavedAddress })));
+const AddressNew = React.lazy(() => import("./screens/AddressNew/AddressNew").then(m => ({ default: m.AddressNew })));
+const UploadPrescription = React.lazy(() => import("./screens/UploadPrescription/UploadPrescription").then(m => ({ default: m.UploadPrescription })));
+const SelectPrescription = React.lazy(() => import("./screens/SelectPrescription/SelectPrescription").then(m => ({ default: m.SelectPrescription })));
+const OrderPlacedSuccess = React.lazy(() => import("./screens/OrderPlacedSuccess/OrderPlacedSuccess").then(m => ({ default: m.OrderPlacedSuccess })));
+const OrderConfirmed = React.lazy(() => import("./screens/OrderConfirmed/OrderConfirmed").then(m => ({ default: m.OrderConfirmed })));
+const Splash3 = React.lazy(() => import("./screens/Splash3/Splash3").then(m => ({ default: m.Splash3 })));
+const Login1 = React.lazy(() => import("./screens/Login1/Login1").then(m => ({ default: m.Login1 })));
+const Login2 = React.lazy(() => import("./screens/Login2/Login2").then(m => ({ default: m.Login2 })));
+const Login3 = React.lazy(() => import("./screens/Login3/Login3").then(m => ({ default: m.Login3 })));
+const EnterPassword = React.lazy(() => import("./screens/EnterPassword/EnterPassword").then(m => ({ default: m.EnterPassword })));
+const ExistingUser = React.lazy(() => import("./screens/ExistingUser/ExistingUser").then(m => ({ default: m.ExistingUser })));
+const ChangePassword = React.lazy(() => import("./screens/ChangePassword/ChangePassword").then(m => ({ default: m.ChangePassword })));
+const PersonalInfo = React.lazy(() => import("./screens/PersonalInfo/PersonalInfo").then(m => ({ default: m.PersonalInfo })));
+const CreateProfile = React.lazy(() => import("./screens/CreateProfile/CreateProfile").then(m => ({ default: m.CreateProfile })));
+const Createsuccess = React.lazy(() => import("./screens/CreateSuccess/CreateSuccess").then(m => ({ default: m.Createsuccess })));
+const SearchBox = React.lazy(() => import("./screens/SearchBox/SearchBox").then(m => ({ default: m.SearchBox })));
+const SearchResults = React.lazy(() => import("./screens/SearchResults/SearchResults").then(m => ({ default: m.SearchResults })));
+const SearchViewMedicine = React.lazy(() => import("./screens/SearchViewMedicine/SearchViewMedicine"));
+const CompareView = React.lazy(() => import("./screens/CompareView/CompareView").then(m => ({ default: m.CompareView })));
+const Offers = React.lazy(() => import("./screens/Offers/Offers").then(m => ({ default: m.Offers })));
+const OffersView = React.lazy(() => import("./screens/OffersView/OffersView").then(m => ({ default: m.OffersView })));
+const Rewards = React.lazy(() => import("./screens/Rewards/Rewards").then(m => ({ default: m.Rewards })));
+const RewardsView = React.lazy(() => import("./screens/RewardsView/RewardsView").then(m => ({ default: m.RewardsView })));
+const RewardsViewMIG = React.lazy(() => import("./screens/RewardsViewMig/RewardsViewMIG").then(m => ({ default: m.RewardsViewMIG })));
+const PharmacistVerification = React.lazy(() => import("./screens/PharmacistVerification/PharmacistVerification").then(m => ({ default: m.PharmacistVerification })));
+const OrderProgress = React.lazy(() => import("./screens/OrderProgressConfirmation/OrderProgressConfirmation").then(m => ({ default: m.OrderProgress })));
+const OrderPayment = React.lazy(() => import("./screens/OrderPayment/OrderPayment").then(m => ({ default: m.OrderPayment })));
+const PaymentPage = React.lazy(() => import("./screens/PaymentPage/PaymentPage").then(m => ({ default: m.PaymentPage })));
+const Orders = React.lazy(() => import("./screens/Orders/Orders").then(m => ({ default: m.Orders })));
+const OrderTrack = React.lazy(() => import("./screens/OrdersTrack/OrdersTrack"));
+const OrderDetails = React.lazy(() => import("./screens/OrderDetails/OrderDetails"));
+const Notifications = React.lazy(() => import("./screens/Notifications/Notifications").then(m => ({ default: m.Notifications })));
+const ProfileView = React.lazy(() => import("./screens/ProfileView/ProfileView").then(m => ({ default: m.ProfileView })));
+const CreatePassword = React.lazy(() => import("./screens/CreatePassword/CreatePassword").then(m => ({ default: m.CreatePassword })));
+const CapturePrescription = React.lazy(() => import("./screens/CapturePrescription/CapturePrescription").then(m => ({ default: m.CapturePrescription })));
+const HelpCenter = React.lazy(() => import("./screens/LandingPage/LandingPage").then(m => ({ default: m.HelpCenter })));
+const LandingPage = React.lazy(() => import("./screens/LandingPage/LandingPage").then(m => ({ default: m.LandingPage })));
+const GenericMedicineOnline = React.lazy(() => import("./screens/GenericMedicineOnline/GenericMedicineOnline"));
+const Blogs = React.lazy(() => import("./screens/Blogs/Blogs").then(m => ({ default: m.Blogs })));
+const Blog = React.lazy(() => import("./screens/Blog/Blog").then(m => ({ default: m.Blog })));
+const PolicyPages = React.lazy(() => import("./screens/PolicyPages/PolicyPages").then(m => ({ default: m.PolicyPages })));
+const SaltPage = React.lazy(() => import("./screens/SaltPage/SaltPage").then(m => ({ default: m.SaltPage })));
+const Reminder = React.lazy(() => import("./screens/Reminder/Reminder").then(m => ({ default: m.Reminder })));
+const AllCategories = React.lazy(() => import("./screens/Category/AllCategories").then(m => ({ default: m.AllCategories })));
+const CategoryPage = React.lazy(() => import("./screens/Category/CategoryPage").then(m => ({ default: m.CategoryPage })));
 import { useCart } from "./api/stateContext";
 import { getOrders } from "./api/Api";
 import Cookies from "js-cookie";
@@ -234,6 +235,35 @@ const App = () => {
 };
 
 const EmptyComponent = () => null;
+
+const LoaderFallback = () => (
+  <div style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "60vh",
+    fontFamily: "'Outfit', sans-serif",
+    color: "#5D399B"
+  }}>
+    <div style={{
+      width: "40px",
+      height: "40px",
+      border: "3px solid #f3e8ff",
+      borderTop: "3px solid #5D399B",
+      borderRadius: "50%",
+      animation: "spin 1s linear infinite",
+      marginBottom: "12px"
+    }} />
+    <span style={{ fontSize: "14px", fontWeight: 600 }}>Loading...</span>
+    <style>{`
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `}</style>
+  </div>
+);
 
 const FeatureComingSoon = () => {
   const location = useLocation();
@@ -515,21 +545,23 @@ const PageWrapper = () => {
       <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
         {landing ? (
           <div className="LandingPage">
-            <Routes location={location}>
-              {!isAppInstalled ? (
-                <>
-                  <Route path="/about" element={<LandingPage showInstall={showInstall} />} />
+            <React.Suspense fallback={<LoaderFallback />}>
+              <Routes location={location}>
+                {!isAppInstalled ? (
+                  <>
+                    <Route path="/about" element={<LandingPage showInstall={showInstall} />} />
 
+                    <Route path="/" element={<Dashboard />} />
+
+                    <Route path="*" element={<Splash1 />} />
+                    <Route path="*" element={<FeatureComingSoon />} />
+
+                  </>
+                ) : (
                   <Route path="/" element={<Dashboard />} />
-
-                  <Route path="*" element={<Splash1 />} />
-                  <Route path="*" element={<FeatureComingSoon />} />
-
-                </>
-              ) : (
-                <Route path="/" element={<Dashboard />} />
-              )}
-            </Routes>
+                )}
+              </Routes>
+            </React.Suspense>
             <Footer />
           </div>
         ) : (
@@ -538,94 +570,96 @@ const PageWrapper = () => {
               <Splash1 />
             ) : (
               <>
-                <Routes location={location}>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/help-center" element={<HelpCenter />} />
-                  <Route
-                    path="/policies-privacy-policy"
-                    element={<PolicyPages policy={"privacy_policy"} />}
-                  />
-                  <Route
-                    path="/policies-terms-and-conditions"
-                    element={<PolicyPages policy={"terms_and_conditions"} />}
-                  />
-                  <Route
-                    path="/policies-grievance-redressal-policy"
-                    element={
-                      <PolicyPages policy={"grievance_redressal_policy"} />
-                    }
-                  />
-                  <Route path="/policies-return-policy"
-                    element={<PolicyPages policy={"return_policy"} />}
-                  />
-                  <Route path="/generic-medicine-online" element={<GenericMedicineOnline />} />
-                  <Route path="/splash" element={<Splash3 />} />
-                  <Route path="/savedaddress" element={<SavedAddress />} />
-                  <Route path="/searchbox" element={<SearchBox />} />
-                  <Route path="/search-results" element={<SearchResults />} />
-                  <Route path="/reminder" element={<Reminder />} />
-                  <Route path="/product" element={<SearchBox />} />
-                  <Route path="/product/*" element={<SearchViewMedicine />} />
-                  <Route
-                    path="/productid/:productId"
-                    element={<ProductRedirect />}
-                  />
-                  <Route path="/salt/*" element={<SaltPage />} />
-                  <Route path="/compare" element={<CompareView />} />
-                  <Route path="/offers" element={<Offers />} />
-                  <Route path="/notification" element={<Notifications />} />
-                  <Route path="/profile" element={<ProfileView />} />
-                  <Route path="/personal-info" element={<PersonalInfo />} />
-                  <Route path="/change-password" element={<ChangePassword />} />
-                  <Route path="/login" element={<Login1 />} />
-                  <Route path="/login2" element={<Login2 />} />
-                  <Route path="/login3" element={<Login3 />} />
-                  <Route path="/create-profile" element={<CreateProfile />} />
-                  <Route path="/enterpassword" element={<EnterPassword />} />
-                  <Route path="/existing" element={<ExistingUser />} />
-                  <Route path="/createpassword" element={<CreatePassword />} />
-                  <Route path="/addressnew" element={<AddressNew />} />
-                  <Route
-                    path="/upload-prescription"
-                    element={<UploadPrescription />}
-                  />
-                  <Route path="/view-offer" element={<OffersView />} />
-                  <Route path="/categories" element={<AllCategories />} />
-                  <Route path="/categories/:mainCategory" element={<CategoryPage />} />
-                  <Route path="/categories/:mainCategory/:subCategory" element={<CategoryPage />} />
-                  <Route path="/category" element={<CategoryPage />} />
-                  <Route path="/rewards" element={<Rewards />} />
-                  <Route
-                    path="/select-prescription"
-                    element={<SelectPrescription />}
-                  />
-                  <Route path="/cart/pharmacist-verification/payment/place-order" element={<OrderPlacedSuccess />} />
-                  <Route path="/blogs" element={<Blogs />} />
+                <React.Suspense fallback={<LoaderFallback />}>
+                  <Routes location={location}>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/help-center" element={<HelpCenter />} />
+                    <Route
+                      path="/policies-privacy-policy"
+                      element={<PolicyPages policy={"privacy_policy"} />}
+                    />
+                    <Route
+                      path="/policies-terms-and-conditions"
+                      element={<PolicyPages policy={"terms_and_conditions"} />}
+                    />
+                    <Route
+                      path="/policies-grievance-redressal-policy"
+                      element={
+                        <PolicyPages policy={"grievance_redressal_policy"} />
+                      }
+                    />
+                    <Route path="/policies-return-policy"
+                      element={<PolicyPages policy={"return_policy"} />}
+                    />
+                    <Route path="/generic-medicine-online" element={<GenericMedicineOnline />} />
+                    <Route path="/splash" element={<Splash3 />} />
+                    <Route path="/savedaddress" element={<SavedAddress />} />
+                    <Route path="/searchbox" element={<SearchBox />} />
+                    <Route path="/search-results" element={<SearchResults />} />
+                    <Route path="/reminder" element={<Reminder />} />
+                    <Route path="/product" element={<SearchBox />} />
+                    <Route path="/product/*" element={<SearchViewMedicine />} />
+                    <Route
+                      path="/productid/:productId"
+                      element={<ProductRedirect />}
+                    />
+                    <Route path="/salt/*" element={<SaltPage />} />
+                    <Route path="/compare" element={<CompareView />} />
+                    <Route path="/offers" element={<Offers />} />
+                    <Route path="/notification" element={<Notifications />} />
+                    <Route path="/profile" element={<ProfileView />} />
+                    <Route path="/personal-info" element={<PersonalInfo />} />
+                    <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/login" element={<Login1 />} />
+                    <Route path="/login2" element={<Login2 />} />
+                    <Route path="/login3" element={<Login3 />} />
+                    <Route path="/create-profile" element={<CreateProfile />} />
+                    <Route path="/enterpassword" element={<EnterPassword />} />
+                    <Route path="/existing" element={<ExistingUser />} />
+                    <Route path="/createpassword" element={<CreatePassword />} />
+                    <Route path="/addressnew" element={<AddressNew />} />
+                    <Route
+                      path="/upload-prescription"
+                      element={<UploadPrescription />}
+                    />
+                    <Route path="/view-offer" element={<OffersView />} />
+                    <Route path="/categories" element={<AllCategories />} />
+                    <Route path="/categories/:mainCategory" element={<CategoryPage />} />
+                    <Route path="/categories/:mainCategory/:subCategory" element={<CategoryPage />} />
+                    <Route path="/category" element={<CategoryPage />} />
+                    <Route path="/rewards" element={<Rewards />} />
+                    <Route
+                      path="/select-prescription"
+                      element={<SelectPrescription />}
+                    />
+                    <Route path="/cart/pharmacist-verification/payment/place-order" element={<OrderPlacedSuccess />} />
+                    <Route path="/blogs" element={<Blogs />} />
 
-                  <Route path="/blogs/:blogUrl" element={<Blog />} />
+                    <Route path="/blogs/:blogUrl" element={<Blog />} />
 
-                  <Route
-                    path="/capture-prescription"
-                    element={<CapturePrescription />}
-                  />
-                  <Route path="/cart" element={<OrderProgress />} />
-                  <Route path="/order-progress" element={<OrderProgress />} />
-                  <Route path="/cart/pharmacist-verification" element={<PharmacistVerification />} />
-                  <Route path="/cart/pharmacist-verification/payment" element={<PaymentPage />} />
-                  <Route path="/order-payment" element={<OrderPayment />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/order/*" element={<OrderTrack />} />
-                  <Route path="/order-details/:id" element={<OrderDetails />} />
-                  <Route path="/invoice/:id" element={<InvoiceWrapper />} />
+                    <Route
+                      path="/capture-prescription"
+                      element={<CapturePrescription />}
+                    />
+                    <Route path="/cart" element={<OrderProgress />} />
+                    <Route path="/order-progress" element={<OrderProgress />} />
+                    <Route path="/cart/pharmacist-verification" element={<PharmacistVerification />} />
+                    <Route path="/cart/pharmacist-verification/payment" element={<PaymentPage />} />
+                    <Route path="/order-payment" element={<OrderPayment />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/order/*" element={<OrderTrack />} />
+                    <Route path="/order-details/:id" element={<OrderDetails />} />
+                    <Route path="/invoice/:id" element={<InvoiceWrapper />} />
 
-                  <Route
-                    path="/product_name/:name"
-                    element={<EmptyComponent />}
-                  />
-                  <Route path="/salt_name/:name" element={<EmptyComponent />} />
+                    <Route
+                      path="/product_name/:name"
+                      element={<EmptyComponent />}
+                    />
+                    <Route path="/salt_name/:name" element={<EmptyComponent />} />
 
-                  <Route path="*" element={<FeatureComingSoon />} />
-                </Routes>
+                    <Route path="*" element={<FeatureComingSoon />} />
+                  </Routes>
+                </React.Suspense>
                 {window.location.pathname !== "/cart" &&
                   window.location.pathname !== "/addressnew" &&
                   window.location.pathname !== "/place-order" &&

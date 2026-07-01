@@ -12,10 +12,16 @@ const HeadActions = ({ variant }) => {
   const navigate = useNavigate();
   const locationRoute = useLocation();
   const userData = getUser();
+  const jwt_token = typeof window !== "undefined" ? Cookies.get("jwt_token") : null;
 
   const [location, setLocation] = useState("Chennai");
   const [hideRoutes, setHideRoutes] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [customerId, setCustomerId] = useState(null);
+
+  useEffect(() => {
+    setCustomerId(Cookies.get("customer_id") || null);
+  }, []);
 
   // Use profile from context
   const profileData = {
@@ -60,8 +66,14 @@ const HeadActions = ({ variant }) => {
   /* ---------------- LOCATION ---------------- */
   useEffect(() => {
     const fetchLocation = async () => {
+      if (!jwt_token) {
+        triggerGeolocation();
+        return;
+      }
+
       try {
-        if (userData?.isLoggedIn) {
+        const data = getUser();
+        if (data.isLoggedIn) {
           const res = await getDefaultAddress();
           if (res?.default_address) {
             const { city, state } = res.default_address;
@@ -69,10 +81,18 @@ const HeadActions = ({ variant }) => {
             return;
           }
         }
+      } catch (error) {
+        console.warn("Default address unavailable");
+      }
 
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            async (pos) => {
+      triggerGeolocation();
+    };
+
+    const triggerGeolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
               const { latitude, longitude } = pos.coords;
               const geoRes = await fetch(
                 `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66d4782bb3d09960167594uts506c6d`
@@ -84,17 +104,19 @@ const HeadActions = ({ variant }) => {
                 geo.address.village ||
                 "Your location"
               );
-            },
-            () => setLocation("Your location")
-          );
-        }
-      } catch {
+            } catch (error) {
+              setLocation("Your location");
+            }
+          },
+          () => setLocation("Your location")
+        );
+      } else {
         setLocation("Your location");
       }
     };
 
     fetchLocation();
-  }, []);
+  }, [jwt_token]);
 
   const startListening = () => {
   const SpeechRecognition =
@@ -145,7 +167,7 @@ const HeadActions = ({ variant }) => {
         </div>
 
         {/* Notif - hide in checkout */}
-        {!isCheckout && userData?.customer_id && (
+        {!isCheckout && customerId && (
           <div onClick={() => navigate("/notification")} className="action-icon-wrapper clickable">
             <img className="action-icon" alt="Notification" src="/notificationbell.svg" />
           </div>
@@ -163,7 +185,7 @@ const HeadActions = ({ variant }) => {
         </Link>
       </>
 
-      {!isCheckout && userData?.customer_id ? (
+      {!isCheckout && customerId ? (
         <div className="profile-menu-wrapper" ref={profileRef}>
           <div
             className="action-icon-wrapper clickable profile-with-arrow"

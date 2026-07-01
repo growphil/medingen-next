@@ -43,7 +43,6 @@
     "react-webcam": "^7.2.0",
     "react-youtube": "^10.1.0",
     "react-zoom-pan-pinch": "^3.7.0",
-    "streamlit-component-lib": "^2.0.0",
     "sweetalert2": "^11.12.4",
     "sweetalert2-react-content": "^5.0.7",
     "swiper": "^11.1.15",
@@ -89,9 +88,15 @@
     ]
   },
   "reactSnap": {
-    "inlineCss": true,
+    "inlineCss": false,
     "skipThirdPartyRequests": false,
     "preconnectThirdParty": false,
+    "timeout": 60000,
+    "concurrency": 1,
+    "minifyHtml": {
+      "collapseWhitespace": true,
+      "removeComments": true
+    },
     "include": [
       "/",
       "/categories",
@@ -100,7 +105,7 @@
       "/categories/Pain-Relief",
       "/categories/Gastrointestinal",
       "/blogs",
-      "/blogs/vitamin-k-rich-foods",
+      "/blogs/branded-vs-generic-medingen",
       "/search-results",
       "/searchbox",
       "/product/pantosec-40mg",

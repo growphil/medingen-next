@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Header from "../Dashboard/Header";
 import Navigation from "../Dashboard/Navigation";
 
@@ -81,6 +82,18 @@ export const AllCategories = () => {
 
   return (
     <div className="allcat-page">
+      <Helmet>
+        <title>All Medicine Categories | Medingen Pharmacy</title>
+        <meta name="description" content="Browse our wide selection of generic medicine categories including Cardiac, Diabetic, Pain Relief, and Gastrointestinal products." />
+        <link rel="canonical" href="https://medingen.in/categories" />
+        <meta property="og:title" content="All Medicine Categories | Medingen Pharmacy" />
+        <meta property="og:description" content="Browse our wide selection of generic medicine categories including Cardiac, Diabetic, Pain Relief, and Gastrointestinal products." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://medingen.in/categories" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="All Medicine Categories | Medingen Pharmacy" />
+        <meta name="twitter:description" content="Browse our wide selection of generic medicine categories including Cardiac, Diabetic, Pain Relief, and Gastrointestinal products." />
+      </Helmet>
       <Header title="All Categories" />
 
       <div className="allcat-container">

@@ -133,9 +133,20 @@ export const SearchResults = () => {
   };
 
   return (
-<>
- 
-    <div className="search-results">
+    <>
+      <Helmet>
+        <title>Search Results for "{product.name}" | Medingen</title>
+        <meta name="description" content={`Find the best generic equivalents and alternative brands for ${product.name} to save on your prescriptions.`} />
+        <link rel="canonical" href={`https://medingen.in/search-results?query=${encodeURIComponent(product.name)}`} />
+        <meta property="og:title" content={`Search Results for "${product.name}" | Medingen`} />
+        <meta property="og:description" content={`Find the best generic equivalents and alternative brands for ${product.name} to save on your prescriptions.`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://medingen.in/search-results?query=${encodeURIComponent(product.name)}`} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`Search Results for "${product.name}" | Medingen`} />
+        <meta name="twitter:description" content={`Find the best generic equivalents and alternative brands for ${product.name} to save on your prescriptions.`} />
+      </Helmet>
+      <div className="search-results">
       <div className="overlap">
         <div className="frame">
           <div className="overlap-group">
